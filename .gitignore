@@ -1,5 +1,6 @@
+# ignore node_modules folder
 node_modules/
 
-server/node_modules
 
-server/.env
+# ignore .env file
+.env
