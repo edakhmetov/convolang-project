@@ -11,7 +11,8 @@ exports.register = async (req, res) => {
     const user = await db.User.create({
       ...req.body,
       password: hash,
-    })
+    });
+    req.session.uid = user.id;
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
@@ -26,6 +27,7 @@ exports.login = async (req, res) => {
     if (user.length === 0) throw new Error();
     const isValidPassword = await bcrypt.compare(password, user[0].password);
     if (!isValidPassword) throw new Error();
+    req.session.uid = user.id;
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
