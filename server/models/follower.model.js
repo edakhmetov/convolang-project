@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Follower.associate = db => {
-    db.Follower.belongsTo(db.User, { as: 'followings' });
-    db.Follower.belongsTo(db.User, { sourceKey: 'followerId', foreignKey: 'id', as: 'followers' });
+    db.Follower.belongsTo(db.User, { foreignKey: 'userId', as: 'followings' });
+    db.Follower.belongsTo(db.User, { foreignKey: 'followerId', as: 'followers' });
   };
 
 

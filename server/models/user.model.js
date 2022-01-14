@@ -15,21 +15,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    nativeLanguages: DataTypes.STRING,
-    learningLanguages: DataTypes.STRING,
+    // firstName: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false
+    // },
+    // lastName: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false
+    // },
+    // nativeLanguages: DataTypes.STRING,
+    // learningLanguages: DataTypes.STRING,
   });
 
   User.associate = db => {
-    db.User.hasMany(db.Follower, {sourceKey: 'id', foreignKey: 'userId', as: 'followers'});
-    db.User.hasMany(db.Follower, {sourceKey: 'id', foreignKey: 'followerId', as: 'followings'});
+    db.User.hasMany(db.Follower, {sourceKey: 'id', foreignKey: 'userId', as: 'followings'});
+    db.User.hasMany(db.Follower, {sourceKey: 'id', foreignKey: 'followerId', as: 'followers'});
+
+    db.User.hasMany(db.Message, {sourceKey: 'id', foreignKey: 'authorId', as: 'sendMessages'});
+    db.User.hasMany(db.Message, {sourceKey: 'id', foreignKey: 'receiverId', as: 'receivedMessages'});
   };
 
   return User;

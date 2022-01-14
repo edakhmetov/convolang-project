@@ -18,5 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
   });
+
+  Message.associate = db => {
+    db.Message.belongsTo(db.User, {sourceKey: 'authorId', foreignKey: 'id'});
+    db.Message.belongsTo(db.User, {sourceKey: 'receiverId', foreignKey: 'id'});
+  }
+
   return Message;
 };
