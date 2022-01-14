@@ -1,23 +1,36 @@
 const db = require('../models');
 const bcrypt = require('bcrypt');
-const saltRounts = process.env.SALT_ROUNDS || 10;
+const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
 
 exports.register = async (req, res) => {
   try {
-    const { password } = req.body;
-    const hash = await bcrypt.hash(password, saltRounts);
+    const { username, password } = req.body;
+    const hash = await bcrypt.hash(password, saltRounds);
+    const foundUser = await db.User.findAll({ where: { username } });
+    if (foundUser.length > 0) return res.status(409).send({ error: '409', message: 'User with this username already exists' });
     const user = await db.User.create({
       ...req.body,
       password: hash,
     })
     res.status(200).send(user);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).send('error');
   }
 };
 
 exports.login = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await db.User.findAll({ where: { username } });
+    if (user.length === 0) throw new Error();
+    const isValidPassword = await bcrypt.compare(password, user[0].password);
+    if (!isValidPassword) throw new Error();
+    res.status(200).send(user);
+  } catch (e) {
+    console.error(e);
+    res.status(401).send({ error: '401', message: 'Invalid username and/or password' });
+  }
 
 };
 
@@ -34,9 +47,11 @@ exports.getUser = async (req, res) => {
       }, {
         model: db.Follower,
         as: 'followers'
+      }, {
+        model: db.Message,
+        as: 'messages'
       }]
     });
-    console.log(user);
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
@@ -45,7 +60,14 @@ exports.getUser = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).send({error: '500', message: 'Could not log out, please try again'});
+    } else {
+      res.clearCookie('sid');
+      res.status(200).send({message: 'Logout successful'});
+    }
+  });
 };
 
 exports.followUser = async (req, res) => {
@@ -55,7 +77,6 @@ exports.followUser = async (req, res) => {
       userId: 1,
       followerId: id
     });
-    // console.log(follower);
     res.status(200).send(follower);
   } catch (e) {
     console.error(e);
