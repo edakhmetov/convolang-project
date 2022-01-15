@@ -1,5 +1,6 @@
-const db = require('../models');
+const { Op } = require("sequelize");
 const bcrypt = require('bcrypt');
+const db = require('../models');
 const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
 
 exports.register = async (req, res) => {
@@ -55,6 +56,23 @@ exports.getUser = async (req, res) => {
       }]
     });
     res.status(200).send(user);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error');
+  }
+};
+
+exports.getNativeLanguageSpeaker = async (req, res) => {
+  try {
+    const users = await db.User.findAll({
+      where: {
+        nativeLanguages: {
+          [Op.substring]: 'russian'
+        }
+      }
+    });
+    console.log(users);
+    res.status(200).send(users);
   } catch (e) {
     console.error(e);
     res.status(500).send('error');

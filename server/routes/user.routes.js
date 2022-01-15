@@ -9,5 +9,7 @@ router.post('/logout', userController.logout);
 router.post('/follow/:id', userController.followUser);
 router.post('/unfollow/:id', userController.unfollowUser);
 
+router.get('/nativeSpeakers', userController.getNativeLanguageSpeaker);
+
 
 module.exports = router;
