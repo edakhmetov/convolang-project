@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user[0].password);
     if (!isValidPassword) throw new Error();
     req.session.uid = user.id;
-    res.status(200).send(user);
+    res.status(200).send(user[0]);
   } catch (e) {
     console.error(e);
     res.status(401).send({ error: '401', message: 'Invalid username and/or password' });
