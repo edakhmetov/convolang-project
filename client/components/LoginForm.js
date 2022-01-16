@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from 'next/router';
 
 const initialState = {
   username: '',
@@ -6,6 +7,9 @@ const initialState = {
 }
 
 const LoginForm = () => {
+
+  const router = useRouter();
+
 
   const [formData, setFormData] = useState(initialState);
 
@@ -15,7 +19,7 @@ const LoginForm = () => {
       ...data,
       [name]: value
     }));
-    console.log(formData);
+    // console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -27,8 +31,16 @@ const LoginForm = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-    const user = await res.json();
-    console.log(user);
+    // const user = await res.json();
+    // console.log(user);
+    // I will receive JWT back from the request and save it to localstorage
+    const data = await res.json();
+    console.log(data);
+    if (!data.error) {
+      localStorage.setItem('accessToken', data.accessToken);
+      // this will send a user to '/' route
+      router.push('/');
+    }
     setFormData(initialState);
   }
 
