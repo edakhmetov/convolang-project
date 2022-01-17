@@ -8,13 +8,15 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
 
 exports.register = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, nativeLanguages, learningLanguages } = req.body;
     const hash = await bcrypt.hash(password, saltRounds);
     const foundUser = await db.User.findAll({ where: { username } });
     if (foundUser.length > 0) return res.status(409).send({ error: '409', message: 'User with this username already exists' });
     const user = await db.User.create({
       ...req.body,
       password: hash,
+      learningLanguages: learningLanguages.toLowerCase(),
+      nativeLanguages: nativeLanguages.toLowerCase()
     });
     // req.session.uid = user.id;
 
@@ -34,11 +36,11 @@ exports.login = async (req, res) => {
     if (!isValidPassword) throw new Error();
     // req.session.uid = user.id;
     // create JWT and sign it with USER_ID to identify user, and send it back to the client
-    // rs. will send JWT back
-    const accessToken = jwt.sign({user_id: user.id}, process.env.JWT);
-    res.status(200).send({accessToken});
+    // response will send JWT back
+    const accessToken = jwt.sign({ user_id: user.id }, process.env.JWT);
+    res.status(200).send({ accessToken });
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     res.status(401).send({ error: '401', message: 'Invalid username and/or password' });
   }
 
@@ -60,6 +62,9 @@ exports.getUser = async (req, res) => {
       }, {
         model: db.Message,
         as: 'messages'
+      }, {
+        model: db.Post,
+        as: 'posts'
       }]
     });
     res.status(200).send(user);
@@ -70,7 +75,7 @@ exports.getUser = async (req, res) => {
 };
 
 exports.getMe = async (req, res) => {
-    res.status(200).send(req.user);
+  res.status(200).send(req.user);
 };
 
 exports.getNativeLanguageSpeaker = async (req, res) => {
@@ -91,14 +96,18 @@ exports.getNativeLanguageSpeaker = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      res.status(500).send({error: '500', message: 'Could not log out, please try again'});
-    } else {
-      res.clearCookie('sid');
-      res.status(200).send({message: 'Logout successful'});
-    }
-  });
+  const { token } = req.body;
+  try {
+    const blacklistedToken = await db.Blacklist.create({
+      token
+    });
+    // console.log(blacklistedToken);
+    res.status(200).send({ message: 'Successfully logged out' });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({ error: '500', message: 'Could not logout, please try again.' })
+  }
+
 };
 
 exports.followUser = async (req, res) => {

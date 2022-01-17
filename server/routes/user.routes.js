@@ -6,12 +6,12 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/me', authMiddleware, userController.getMe);
-router.get('/user/:id', userController.getUser);
-router.post('/logout', userController.logout);
-router.post('/follow/:id', userController.followUser);
-router.post('/unfollow/:id', userController.unfollowUser);
+router.get('/user/:id', authMiddleware, userController.getUser);
+router.post('/logout', authMiddleware, userController.logout);
+router.post('/follow/:id', authMiddleware, userController.followUser);
+router.post('/unfollow/:id', authMiddleware, userController.unfollowUser);
 
-router.get('/nativeSpeakers', userController.getNativeLanguageSpeaker);
+router.get('/nativeSpeakers', authMiddleware, userController.getNativeLanguageSpeaker);
 
 
 module.exports = router;

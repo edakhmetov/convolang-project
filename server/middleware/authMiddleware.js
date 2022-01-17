@@ -6,6 +6,12 @@ module.exports = authMiddleware = async (req, res, next) => {
     const { authorization } = req.headers;
     if (!authorization) throw new Error();
     const accessToken = authorization.split(' ')[1];
+    const tokenInBlacklist = await db.Blacklist.findOne({
+      where: {
+        token: accessToken
+      }
+    });
+    if (tokenInBlacklist) throw new Error();
     // if JWT verify fails, it will throw and error and catch statement will catch it
     const { user_id } = jwt.verify(accessToken, process.env.JWT);
     const user = await db.User.findOne({
@@ -21,6 +27,9 @@ module.exports = authMiddleware = async (req, res, next) => {
       }, {
         model: db.Message,
         as: 'messages'
+      },{
+        model: db.Post,
+        as: 'posts'
       }]
     });
     if (!user) throw new Error();

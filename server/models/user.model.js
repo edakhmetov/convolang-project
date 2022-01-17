@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = db => {
     db.User.hasMany(db.Follower, { sourceKey: 'id', foreignKey: 'userId', as: 'followings' });
     db.User.hasMany(db.Follower, { sourceKey: 'id', foreignKey: 'followerId', as: 'followers' });
-
+    db.User.hasMany(db.Post, { sourceKey: 'id', foreignKey: 'authorId', as: 'posts' });
     db.User.hasMany(db.Message, { sourceKey: 'id', foreignKey: 'authorId', as: 'messages' });
   };
 

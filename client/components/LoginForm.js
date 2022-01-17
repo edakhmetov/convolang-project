@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { AuthContext } from '../lib/context/authContext';
+import apiService from "../lib/api/apiService";
 
 const initialState = {
   username: '',
@@ -8,38 +11,26 @@ const initialState = {
 
 const LoginForm = () => {
 
-  const router = useRouter();
+  const { setIsLoggedIn } = useContext(AuthContext);
 
+  const router = useRouter();
 
   const [formData, setFormData] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(data => ({
-      ...data,
-      [name]: value
-    }));
-    // console.log(formData);
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3001/login', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    // const user = await res.json();
-    // console.log(user);
-    // I will receive JWT back from the request and save it to localstorage
-    const data = await res.json();
-    console.log(data);
+    const data = await apiService.login(formData);
     if (!data.error) {
-      localStorage.setItem('accessToken', data.accessToken);
+      // localStorage.setItem('accessToken', data.accessToken);
       // this will send a user to '/' route
-      router.push('/');
+      router.push('/home');
+      // this will re-render navbar to display needed links
+      setIsLoggedIn(true);
     }
     setFormData(initialState);
   }
