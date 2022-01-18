@@ -1,9 +1,10 @@
 import { useContext } from "react"
 import { AuthContext } from "../lib/context/authContext"
 import PostList from "../components/PostList";
+import UserInfo from "../components/UserInfo";
 
 const profile = () => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   if (user) {
     user.posts = user.posts.map(p => {
@@ -14,25 +15,16 @@ const profile = () => {
       }
       return p
     });
-    // console.log(user);
+    // console.log(user.posts);
   }
 
   return (
     <div>
-      {user && <div>
-        <h1>{user.firstName} {user.lastName}</h1>
-        <h3>Followers: {user.followers.length}</h3>
-        {/* {user.followers.map((u, index) => (
-          <div key={index}>
-            <h1>
-              {u.firstName} {u.lastName}
-            </h1>
-          </div>
-        ))} */}
-        <h3>Followings: {user.followings.length}</h3>
-        <h3>Posts: {user.posts.length}</h3>
-        <PostList passedPosts={user.posts}/>
-      </div>
+      {user &&
+        <div>
+          <UserInfo user={user} />
+          <PostList passedPosts={user.posts} />
+        </div>
       }
     </div>
   )

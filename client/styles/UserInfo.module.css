@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* credits to https://stackoverflow.com/questions/41789278/first-child-full-width-in-flexbox */
+.child {
+  display: inline-block;
+}
+
+.child:first-child {
+  width: 100%;
+}
+
+.child:not(:first-child) {
+  flex: 1;
+}
+
+.name {
+  text-align: center;
+  font-variant: small-caps;
+}

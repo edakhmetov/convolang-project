@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import apiService from '../lib/api/apiService';
-import { AuthContext } from "../lib/context/authContext"
+import { AuthContext } from '../lib/context/authContext';
 
 
 const discover = () => {
@@ -30,13 +30,13 @@ const discover = () => {
   const follow = async (id) => {
     const data = await apiService.followUser(id);
     // setFollowing(true);
-    console.log(data);
+    // console.log(data);
   }
 
   const unfollow = async (id) => {
     const data = await apiService.unfollowUser(id);
     // setFollowing(false);
-    console.log(data);
+    // console.log(data);
   }
 
   return (
