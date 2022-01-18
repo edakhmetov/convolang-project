@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import apiService from '../lib/api/apiService';
 import { AuthContext } from '../lib/context/authContext';
+import formStyles from '../styles/Form.module.css'
+
 
 const initialState = {
   firstName: '',
@@ -13,11 +15,15 @@ const initialState = {
 }
 
 const RegistrationForm = () => {
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
 
 
   const [formData, setFormData] = useState(initialState);
+
+  useEffect(() => {
+    if (isLoggedIn == true) router.push('/');
+  }, [isLoggedIn])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,19 +31,18 @@ const RegistrationForm = () => {
   };
 
   const register = async (e) => {
-    console.log(e);
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     const user = await apiService.register(formData);
     const res = await apiService.login({ username: formData.username, password: formData.password })
-    console.log(res);
-    router.push('/home');
+    // console.log(res);
     setIsLoggedIn(true);
+    // router.push('/');
   }
 
   return (
-    <div>
-      <form onSubmit={register}>
+    <div className='form-container'>
+      <form className={formStyles.form} onSubmit={register}>
         <label htmlFor='firstName'>First Name</label>
         <input type='text' name='firstName' onChange={handleChange} required />
         <label htmlFor='lastName'>Last Name</label>

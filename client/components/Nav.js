@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../lib/context/authContext';
 import navStyles from '../styles/Nav.module.css';
 import { useRouter } from 'next/router';
+import apiService from '../lib/api/apiService';
 
-
-// now, the JWT token is accessible from the localstorage, use useEffect to send request on each page and to confirm that JWT is valid and user is signed in
 
 const Nav = () => {
   const router = useRouter();
@@ -14,19 +13,7 @@ const Nav = () => {
   // console.log('in the nav', user);
 
   const logout = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-    const res = await fetch('http://localhost:3001/logout', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ token: accessToken }),
-    });
-    const data = await res.json();
-    // console.log('data from logout', data);
+    await apiService.logout();
     localStorage.removeItem('accessToken');
     setUser(null);
     setIsLoggedIn(false);
@@ -50,10 +37,7 @@ const Nav = () => {
         <>
           <ul>
             <li>
-              <Link href='/home'>Home</Link>
-            </li>
-            <li>
-              <Link href='/chats'>Chats</Link>
+              <Link href='/'>Home</Link>
             </li>
             <li>
               <Link href='/discover'>Discover</Link>
@@ -61,19 +45,23 @@ const Nav = () => {
             <li>
               <Link href='/profile'>Profile</Link>
             </li>
+            <li>
+              <button onClick={logout} className={navStyles.logoutBtn}>Logout</button>
+            </li>
           </ul>
-          <button onClick={logout}>Logout</button>
         </>
       )
     }
   }
 
   return (
-    <nav>
+    <nav className={navStyles.nav}>
       <h1>
         <Link href='/'>Convolang</Link>
       </h1>
-      {renderLinks()}
+      <div className={navStyles.links}>
+        {renderLinks()}
+      </div>
     </nav>
   )
 }

@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 40px;
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+}
+
+.links ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.links ul li {
+  font-size: 16px;
+}
+
+.logoutBtn {
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}

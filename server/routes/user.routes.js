@@ -8,8 +8,15 @@ router.post('/login', userController.login);
 router.get('/me', authMiddleware, userController.getMe);
 router.get('/user/:id', authMiddleware, userController.getUser);
 router.post('/logout', authMiddleware, userController.logout);
+
+router.get('/posts', authMiddleware, userController.getUserPosts);
+router.post('/posts', authMiddleware, userController.createPost);
+// router.get('/posts/:id', authMiddleware, userController.getUserPosts);
+
 router.post('/follow/:id', authMiddleware, userController.followUser);
 router.post('/unfollow/:id', authMiddleware, userController.unfollowUser);
+
+router.get('/followers', userController.getFollowers);
 
 router.get('/nativeSpeakers', authMiddleware, userController.getNativeLanguageSpeaker);
 

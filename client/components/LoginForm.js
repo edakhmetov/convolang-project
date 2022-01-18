@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
 import { AuthContext } from '../lib/context/authContext';
 import apiService from "../lib/api/apiService";
+import formStyles from '../styles/Form.module.css'
 
 const initialState = {
   username: '',
@@ -11,7 +11,7 @@ const initialState = {
 
 const LoginForm = () => {
 
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -22,15 +22,19 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    if (isLoggedIn == true) router.push('/');
+  }, [isLoggedIn])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await apiService.login(formData);
     if (!data.error) {
       // localStorage.setItem('accessToken', data.accessToken);
-      // this will send a user to '/' route
-      router.push('/home');
       // this will re-render navbar to display needed links
       setIsLoggedIn(true);
+      // this will send a user to '/' route
+      // router.push('/');
     }
     setFormData(initialState);
   }
@@ -38,8 +42,8 @@ const LoginForm = () => {
 
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={formStyles.container}>
+      <form className={formStyles.form} onSubmit={handleSubmit}>
         <label htmlFor='username'>Username</label>
         <input type="text" name="username" value={formData.username} onChange={handleChange} />
         <label htmlFor='password'>Password</label>

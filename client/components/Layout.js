@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import apiService from '../lib/api/apiService';
 import Nav from '../components/Nav';
 import { AuthProvider } from '../lib/context/authContext';
 
@@ -9,37 +9,26 @@ const Layout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // access JWT from the localstorage
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) return;
     (async () => {
-      const res = await fetch('http://localhost:3001/me', {
-        method: 'GET',
-        credentials: 'include',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          'authorization': `Bearer ${accessToken}`,
-        },
-      });
-      const data = await res.json();
-      if (!data.error) {
-        console.log(data);
-        setUser(data)
+      const user = await apiService.getLoggedUser();
+      console.log('from the layout', user);
+      if (user) {
+        setUser(user);
         setIsLoggedIn(true);
-      };
+      }
     })()
-
   }, [isLoggedIn])
 
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user])
+
   return (
-    <AuthProvider value={{user, setUser, setIsLoggedIn}} >
+    <AuthProvider value={{user, setUser, setIsLoggedIn, isLoggedIn}} >
       <Nav />
-      <div>
-        <main>
-          {children}
-        </main>
-      </div>
+      <main>
+        {children}
+      </main>
     </AuthProvider>
   )
 }

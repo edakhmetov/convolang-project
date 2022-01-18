@@ -9,19 +9,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    authorId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    upvotes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      default: 0
-    },
+    // upvotes: {
+    //   type: DataTypes.INTEGER,
+    //   // allowNull: false,
+    //   default: 0,
+    // },
   });
 
   Post.associate = db => {
-    db.Post.belongsTo(db.User, {sourceKey: 'authorId', foreignKey: 'id'});
+    db.Post.belongsTo(db.User);
+    db.Post.hasMany(db.Comment, {sourceKey: 'id', foreignKey: 'postId', as: 'comments'});
   }
 
   return Post;
