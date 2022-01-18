@@ -29,6 +29,9 @@ module.exports = authMiddleware = async (req, res, next) => {
       }, {
         model: db.Post,
         as: 'posts'
+      }, {
+        model: db.Comment,
+        as: 'comments',
       }]
     });
     // console.log('from the auth', user);

@@ -77,14 +77,33 @@ exports.getMe = async (req, res) => {
 
 exports.getNativeLanguageSpeaker = async (req, res) => {
   try {
+    const language = req.user.learningLanguages;
     const users = await db.User.findAll({
       where: {
         nativeLanguages: {
-          [Op.substring]: 'russian'
+          [Op.substring]: language
         }
       }
     });
-    console.log(users);
+    // console.log(users);
+    res.status(200).send(users);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error');
+  }
+};
+
+exports.getLearningLanguageSpeaker = async (req, res) => {
+  try {
+    const language = req.user.nativeLanguages;
+    const users = await db.User.findAll({
+      where: {
+        learningLanguages: {
+          [Op.substring]: language
+        }
+      }
+    });
+    // console.log(users);
     res.status(200).send(users);
   } catch (e) {
     console.error(e);
@@ -139,7 +158,7 @@ exports.unfollowUser = async (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
-    console.log('userid from cretepost', req.user.id)
+    // console.log('userid from cretepost', req.user.id)
     const post = await db.Post.create({
       content: req.body.content,
       userId: req.user.id,
@@ -148,13 +167,13 @@ exports.createPost = async (req, res) => {
     res.status(200).send({ message: 'created post' });
   } catch (e) {
     console.error(e);
-    res.status(500).send({ error: '500', message: 'Internal server error' });
+    res.status(500).send({ error: '500', message: 'Error while creating post' });
   }
 };
 
 exports.getUserPosts = async (req, res) => {
   const id = req.user.id;
-  console.log('id from the getuserposts', id);
+  // console.log('id from the getuserposts', id);
   try {
     const posts = await db.Post.findAll({
       where: {
@@ -165,7 +184,7 @@ exports.getUserPosts = async (req, res) => {
     res.status(200).send(posts);
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Internal server error'});
+    res.status(500).send({error: '500', message: 'Error while retrieving posts'});
   }
 };
 
@@ -182,9 +201,9 @@ exports.getFollowers = async (req, res) => {
       }]
     });
     // console.log(followers);
-    res.status(200).send(followers);
+    res.status(200).send(followers.map(follower => follower.followings));
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'internal server error'});
+    res.status(500).send({error: '500', message: 'Error retrieveing followers'});
   }
 };

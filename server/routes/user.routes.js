@@ -19,6 +19,7 @@ router.post('/unfollow/:id', authMiddleware, userController.unfollowUser);
 router.get('/followers', userController.getFollowers);
 
 router.get('/nativeSpeakers', authMiddleware, userController.getNativeLanguageSpeaker);
+router.get('/learningSpeakers', authMiddleware, userController.getLearningLanguageSpeaker);
 
 
 module.exports = router;

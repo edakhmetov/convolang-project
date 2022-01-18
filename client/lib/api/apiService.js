@@ -95,7 +95,7 @@ apiService.createPost = async (formData) => {
       body: JSON.stringify(formData)
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (e) {
     console.log(e);
@@ -124,6 +124,68 @@ apiService.getUserPosts = async (id) => {
   }
 };
 
+apiService.getNativeSpeakers = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  try {
+    const url = `${BASE_URL}/nativeSpeakers`;
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const users = await res.json();
+    // console.log('nativespeaker api', users);
+    return users;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+};
 
+apiService.getLearningSpeakers = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  try {
+    const url = `${BASE_URL}/learningSpeakers`;
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const users = await res.json();
+    return users;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+};
+
+apiService.followUser = async (id) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(`${BASE_URL}/follow/${id}`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`
+      },
+    });
+    const data = await res.json();
+    // console.log(data);
+    return data;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
 
 export default apiService;

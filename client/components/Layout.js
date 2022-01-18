@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     (async () => {
       const user = await apiService.getLoggedUser();
-      console.log('from the layout', user);
+      // console.log('from the layout', user);
       if (user) {
         setUser(user);
         setIsLoggedIn(true);
