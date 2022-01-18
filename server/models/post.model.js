@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1234),
       allowNull: false
     },
     userId: {
@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Post.associate = db => {
-    db.Post.belongsTo(db.User);
-    db.Post.hasMany(db.Comment, {sourceKey: 'id', foreignKey: 'postId', as: 'comments'});
+    db.Post.belongsTo(db.User, { foreignKey: 'userId', sourceKey: 'id', as: 'owner' });
+    db.Post.hasMany(db.Comment, { sourceKey: 'id', foreignKey: 'postId', as: 'comments' });
   }
 
   return Post;

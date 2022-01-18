@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Post from "./Post";
 import apiService from "../lib/api/apiService";
 import PostForm from './PostForm';
+import styles from '../styles/List.module.css';
 
 const PostList = ({ user }) => {
 
@@ -15,18 +16,14 @@ const PostList = ({ user }) => {
 
   const getPosts = async () => {
     const userPosts = await apiService.getUserPosts();
-    // const followingPosts = await apiService.getFollowingPosts();
-    // const orderedPosts = ()
-    console.log(userPosts);
     setPosts([...userPosts]);
-      // .then(posts => setPosts(posts));
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <PostForm getPosts={getPosts}/>
       {posts.length > 0 && posts.map((post) => (
-        <Post post={post} key={post.id} />
+        <Post post={post} key={post.id} url={`/post/${post.id}`}/>
       ))}
     </div>
   )

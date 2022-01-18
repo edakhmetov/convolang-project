@@ -1,0 +1,61 @@
+.container {
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 20px 0;
+  min-height: 150px;
+  width: 100%;
+  padding: 10px;
+
+  border: 1px solid rgb(243, 243, 243);
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
+}
+
+.creator {
+  color: rgb(136, 136, 136);
+  font-size: 14px;
+  font-variant: small-caps;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.content {
+  font-size: 18px;
+}
+
+.main:hover {
+  transform: scale(1.02, 1.02);
+  /* credits to Samuel Thornton from https://codepen.io/sdthornton/pen/wBZdXq */
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.formInput {
+  font-size: 18px;
+  height: 60%;
+  border: 1px solid rgb(243, 243, 243);
+  margin-bottom: 5px;
+}
+
+.formInput:focus {
+  outline: none;
+  border: 1px solid rgb(200, 200, 200);
+}
+
+.formLabel {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0 0 10px;
+}

@@ -182,6 +182,13 @@ exports.getUserPosts = async (req, res) => {
           [Op.in]: [...ids, id]
         }
       },
+      include: [
+        {
+          model: db.User,
+          as: 'owner',
+          attributes: ['id','firstName', 'lastName']
+        }
+      ],
       order: [
         ['createdAt', 'DESC']
       ]

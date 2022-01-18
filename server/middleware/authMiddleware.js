@@ -15,7 +15,6 @@ module.exports = authMiddleware = async (req, res, next) => {
     // if JWT verify fails, it will throw and error and catch statement will catch it
     const { user_id } = jwt.verify(accessToken, process.env.JWT);
     // console.log('userid from auth', user_id);
-    // console.log(req.headers);
     const user = await db.User.findOne({
       where: {
         id: user_id,
@@ -27,11 +26,12 @@ module.exports = authMiddleware = async (req, res, next) => {
         model: db.Follower,
         as: 'followers'
       }, {
-        model: db.Post,
-        as: 'posts'
-      }, {
         model: db.Comment,
         as: 'comments',
+      }, {
+        model: db.Post,
+        as: 'posts',
+        attributes: ['id', 'content', 'createdAt']
       }]
     });
     // console.log('from the auth', user.followings.map(u => u.followerId));

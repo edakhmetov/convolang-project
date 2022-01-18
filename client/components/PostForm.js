@@ -1,12 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext } from 'react';
 import { AuthContext } from '../lib/context/authContext';
-import apiService from "../lib/api/apiService";
+import apiService from '../lib/api/apiService';
+import styles from '../styles/Post.module.css'
 
 const initialState = {
   content: '',
 }
 
-const PostForm = ({getPosts}) => {
+const PostForm = ({ getPosts }) => {
 
   const { user } = useContext(AuthContext);
 
@@ -22,12 +23,6 @@ const PostForm = ({getPosts}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await apiService.createPost(formData);
-    // if (!data.error) {
-    //   // localStorage.setItem('accessToken', data.accessToken);
-    //   // this will send a user to '/' route
-    //   router.push('/home');
-    //   // this will re-render navbar to display needed links
-    // }
     setFormData(initialState);
     getPosts();
   }
@@ -35,13 +30,29 @@ const PostForm = ({getPosts}) => {
 
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='content'>Content</label>
-        <input type="textarea" name="content" value={formData.content} onChange={handleChange} />
-        <input type="submit" />
-      </form>
-    </div>
+    // <div>
+    // </div>
+    <form className={styles.formContainer} onSubmit={handleSubmit}>
+      <label
+        className={styles.formLabel}
+        htmlFor='content'
+      >
+        Create a post
+      </label>
+      <input
+        className={styles.formInput}
+        type='textarea'
+        name='content'
+        value={formData.content}
+        autoComplete='off'
+        required='true'
+        onChange={handleChange}
+      />
+      <input
+        className={styles.formButton}
+        type='submit'
+      />
+    </form>
   )
 }
 
