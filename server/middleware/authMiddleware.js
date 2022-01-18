@@ -34,7 +34,7 @@ module.exports = authMiddleware = async (req, res, next) => {
         as: 'comments',
       }]
     });
-    // console.log('from the auth', user);
+    // console.log('from the auth', user.followings.map(u => u.followerId));
     if (!user) throw new Error();
     req.user = user;
     next();

@@ -103,10 +103,10 @@ apiService.createPost = async (formData) => {
   }
 };
 
-apiService.getUserPosts = async (id) => {
+apiService.getUserPosts = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
-    const url = `${BASE_URL}/posts${id ? `/${id}` : ''}`;
+    const url = `${BASE_URL}/posts`;
     const res = await fetch(url, {
       method: 'GET',
       credentials: 'include',
@@ -183,9 +183,52 @@ apiService.followUser = async (id) => {
     // console.log(data);
     return data;
   } catch (e) {
-    console.log(e);
+    console.log('error follow', e);
     return e;
   }
 };
+
+apiService.unfollowUser = async (id) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(`${BASE_URL}/unfollow/${id}`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`
+      },
+    });
+    const data = await res.json();
+    // console.log(data);
+    return data;
+  } catch (e) {
+    console.log('error unfollow', e);
+    return e;
+  }
+};
+
+apiService.getFollowingPosts = async () => {
+  try {
+    const url = `${BASE_URL}/followingPosts`;
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const posts = await res.json();
+    // console.log(posts);
+    return posts;
+  } catch (e) {
+    console.error(e);
+    return []
+  }
+}
 
 export default apiService;

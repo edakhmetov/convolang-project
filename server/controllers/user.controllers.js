@@ -130,12 +130,12 @@ exports.followUser = async (req, res) => {
   const { id } = req.params;
   try {
     const follower = await db.Follower.create({
-      userId: 1,
+      userId: req.user.id,
       followerId: id
     });
     res.status(200).send(follower);
   } catch (e) {
-    console.error(e);
+    console.error('error follow', e);
     res.status(500).send('error');
   }
 };
@@ -145,13 +145,13 @@ exports.unfollowUser = async (req, res) => {
   try {
     await db.Follower.destroy({
       where: {
-        userId: 1,
+        userId: req.user.id,
         followerId: id
       }
     });
-    res.status(200).send('deleted');
+    res.status(200).send({message: 'unfollowed'});
   } catch (e) {
-    console.error(e);
+    console.error('error unfollow', e);
     res.status(500).send('error');
   }
 };
@@ -172,16 +172,21 @@ exports.createPost = async (req, res) => {
 };
 
 exports.getUserPosts = async (req, res) => {
-  const id = req.user.id;
   // console.log('id from the getuserposts', id);
   try {
-    const posts = await db.Post.findAll({
+    const id = req.user.id;
+    const ids = req.user.followings.map(u => u.followerId);
+    const userPosts = await db.Post.findAll({
       where: {
-        userId: id
-      }
+        userId: {
+          [Op.in]: [...ids, id]
+        }
+      },
+      order: [
+        ['createdAt', 'DESC']
+      ]
     });
-    // console.log('posts', posts);
-    res.status(200).send(posts);
+    res.status(200).send(userPosts);
   } catch (e) {
     console.error(e);
     res.status(500).send({error: '500', message: 'Error while retrieving posts'});
@@ -204,6 +209,25 @@ exports.getFollowers = async (req, res) => {
     res.status(200).send(followers.map(follower => follower.followings));
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Error retrieveing followers'});
+    res.status(500).send({error: '500', message: 'Error retrieving followers'});
+  }
+};
+
+exports.getFollowingsPosts = async (req, res) => {
+  try {
+    const ids = req.user.followings.map(u => u.followerId);
+    // console.log(ids);
+    const posts = await db.Post.findAll({
+      where: {
+        userId: {
+          [Op.in]: ids
+        }
+      }
+    });
+    // console.log(posts);
+    res.status(200).send(posts);
+  } catch(e) {
+    console.error(e);
+    res.status(500).send({error: '500', message: 'Error retrieving followings posts'});
   }
 };

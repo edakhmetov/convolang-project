@@ -11,9 +11,15 @@ const PostList = ({ user }) => {
     getPosts();
   }, [])
 
-  const getPosts = () => {
-    apiService.getUserPosts()
-      .then(posts => setPosts(posts));
+  // console.log(user);
+
+  const getPosts = async () => {
+    const userPosts = await apiService.getUserPosts();
+    // const followingPosts = await apiService.getFollowingPosts();
+    // const orderedPosts = ()
+    console.log(userPosts);
+    setPosts([...userPosts]);
+      // .then(posts => setPosts(posts));
   }
 
   return (
