@@ -209,9 +209,9 @@ apiService.unfollowUser = async (id) => {
   }
 };
 
-apiService.getFollowingPosts = async () => {
+apiService.getMyPosts = async () => {
   try {
-    const url = `${BASE_URL}/followingPosts`;
+    const url = `${BASE_URL}/myPosts`;
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch(url, {
       method: 'GET',

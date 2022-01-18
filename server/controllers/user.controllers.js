@@ -200,6 +200,32 @@ exports.getUserPosts = async (req, res) => {
   }
 };
 
+exports.getMyPosts = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const userPosts = await db.Post.findAll({
+      where: {
+        userId: id
+      },
+      include: [
+        {
+          model: db.User,
+          as: 'owner',
+          attributes: ['id','firstName', 'lastName']
+        }
+      ],
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    });
+    console.log(userPosts);
+    res.status(200).send(userPosts);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({error: '500', message: 'Error while retrieving posts'});
+  }
+};
+
 exports.getFollowers = async (req, res) => {
   try {
     const followers = await db.Follower.findAll({

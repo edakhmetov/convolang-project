@@ -4,15 +4,16 @@ import apiService from "../lib/api/apiService";
 import PostForm from './PostForm';
 import styles from '../styles/List.module.css';
 
-const PostList = ({ user }) => {
+const PostList = ({ user, passedPosts }) => {
 
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts();
+    if (passedPosts) setPosts(passedPosts);
+    else getPosts();
   }, [])
 
-  // console.log(user);
+  // console.log(posts);
 
   const getPosts = async () => {
     const userPosts = await apiService.getUserPosts();
@@ -21,7 +22,7 @@ const PostList = ({ user }) => {
 
   return (
     <div className={styles.container}>
-      <PostForm getPosts={getPosts}/>
+      {!passedPosts && <PostForm getPosts={getPosts}/>}
       {posts.length > 0 && posts.map((post) => (
         <Post post={post} key={post.id} url={`/post/${post.id}`}/>
       ))}

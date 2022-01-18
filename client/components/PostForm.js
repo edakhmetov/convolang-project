@@ -45,7 +45,8 @@ const PostForm = ({ getPosts }) => {
         name='content'
         value={formData.content}
         autoComplete='off'
-        required='true'
+        required={true}
+        placeholder='Share something...'
         onChange={handleChange}
       />
       <input
