@@ -197,6 +197,29 @@ exports.getUserPosts = async (req, res) => {
   }
 };
 
+exports.getPost = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const post = await db.Post.findOne({
+      where: {
+        id
+      },
+      include: [
+        {
+          model: db.User,
+          as: 'owner',
+          attributes: ['id', 'firstName', 'lastName']
+        }
+      ]
+    });
+    // console.log(post)
+    res.status(200).send(post);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
+  }
+};
+
 exports.getMyPosts = async (req, res) => {
   try {
     const id = req.user.id;

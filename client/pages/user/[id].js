@@ -4,6 +4,7 @@ import { AuthContext } from '../../lib/context/authContext';
 import apiService from '../../lib/api/apiService';
 import PostList from '../../components/PostList';
 import UserInfo from '../../components/UserInfo';
+import styles from '../../styles/UserInfo.module.css';
 
 const userPage = () => {
 
@@ -65,8 +66,8 @@ const userPage = () => {
         <div>
           <UserInfo user={userInfo} />
           {isFollowing
-            ? <button onClick={() => unfollow(userInfo.id)}>Unfollow</button>
-            : <button onClick={() => follow(userInfo.id)}>Follow</button>}
+            ? <button className={styles.followButton} onClick={() => unfollow(userInfo.id)}>Unfollow</button>
+            : <button className={styles.followButton} onClick={() => follow(userInfo.id)}>Follow</button>}
           <PostList passedPosts={userInfo.posts} />
         </div>
       }

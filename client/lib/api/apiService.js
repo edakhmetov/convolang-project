@@ -229,7 +229,7 @@ apiService.getMyPosts = async () => {
     console.error(e);
     return []
   }
-}
+};
 
 apiService.getUserInfo = async (id) => {
   try {
@@ -245,8 +245,29 @@ apiService.getUserInfo = async (id) => {
       },
     });
     const user = await res.json();
-    // console.log(posts);
     return user;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+apiService.getPost = async (id) => {
+  try {
+    const url = `${BASE_URL}/posts/${id}`;
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const post = await res.json();
+    // console.log(posts);
+    return post;
   } catch (e) {
     console.error(e);
     return null;

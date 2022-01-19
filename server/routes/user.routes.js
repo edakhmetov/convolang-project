@@ -12,7 +12,7 @@ router.post('/logout', authMiddleware, userController.logout);
 router.get('/posts', authMiddleware, userController.getUserPosts);
 router.post('/posts', authMiddleware, userController.createPost);
 router.get('/followingPosts', authMiddleware, userController.getFollowingsPosts);
-// router.get('/posts/:id', authMiddleware, userController.getUserPosts);
+router.get('/posts/:id', authMiddleware, userController.getPost);
 
 router.post('/follow/:id', authMiddleware, userController.followUser);
 router.post('/unfollow/:id', authMiddleware, userController.unfollowUser);
