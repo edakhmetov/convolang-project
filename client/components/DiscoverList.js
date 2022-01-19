@@ -30,9 +30,13 @@ const DiscoverList = ({ user, users }) => {
             <p className={styles.name}>{u.firstName}</p>
             <p className={styles.name}>{u.lastName}</p>
           </div>
-          <p className={styles.language}>native language <p>{u.nativeLanguages}</p></p>
+          <div className={styles.language}>
+            native language <p>{u.nativeLanguages}</p>
+          </div>
           <hr className={styles.lineBreak} />
-          <p className={styles.language}>learning language <p>{u.learningLanguages}</p></p>
+          <div className={styles.language}>
+            learning language <p>{u.learningLanguages}</p>
+          </div>
           {/* {isFollowed(u.id)
             ? <button onClick={() => unfollow(u.id)}>Unfollow</button>
             : <button onClick={() => follow(u.id)}>Follow</button>} */}

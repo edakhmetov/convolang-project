@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await db.User.findAll({
+    const user = await db.User.findOne({
       where: {
         id
       },
@@ -56,9 +56,6 @@ exports.getUser = async (req, res) => {
       }, {
         model: db.Follower,
         as: 'followers'
-      }, {
-        model: db.Message,
-        as: 'messages'
       }, {
         model: db.Post,
         as: 'posts'
@@ -149,7 +146,7 @@ exports.unfollowUser = async (req, res) => {
         followerId: id
       }
     });
-    res.status(200).send({message: 'unfollowed'});
+    res.status(200).send({ message: 'unfollowed' });
   } catch (e) {
     console.error('error unfollow', e);
     res.status(500).send('error');
@@ -186,7 +183,7 @@ exports.getUserPosts = async (req, res) => {
         {
           model: db.User,
           as: 'owner',
-          attributes: ['id','firstName', 'lastName']
+          attributes: ['id', 'firstName', 'lastName']
         }
       ],
       order: [
@@ -196,7 +193,7 @@ exports.getUserPosts = async (req, res) => {
     res.status(200).send(userPosts);
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Error while retrieving posts'});
+    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
   }
 };
 
@@ -211,7 +208,7 @@ exports.getMyPosts = async (req, res) => {
         {
           model: db.User,
           as: 'owner',
-          attributes: ['id','firstName', 'lastName']
+          attributes: ['id', 'firstName', 'lastName']
         }
       ],
       order: [
@@ -222,7 +219,7 @@ exports.getMyPosts = async (req, res) => {
     res.status(200).send(userPosts);
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Error while retrieving posts'});
+    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
   }
 };
 
@@ -242,7 +239,7 @@ exports.getFollowers = async (req, res) => {
     res.status(200).send(followers.map(follower => follower.followings));
   } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Error retrieving followers'});
+    res.status(500).send({ error: '500', message: 'Error retrieving followers' });
   }
 };
 
@@ -259,8 +256,8 @@ exports.getFollowingsPosts = async (req, res) => {
     });
     // console.log(posts);
     res.status(200).send(posts);
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    res.status(500).send({error: '500', message: 'Error retrieving followings posts'});
+    res.status(500).send({ error: '500', message: 'Error retrieving followings posts' });
   }
 };

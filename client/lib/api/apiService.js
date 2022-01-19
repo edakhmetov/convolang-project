@@ -231,4 +231,26 @@ apiService.getMyPosts = async () => {
   }
 }
 
+apiService.getUserInfo = async (id) => {
+  try {
+    const url = `${BASE_URL}/users/${id}`;
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const user = await res.json();
+    // console.log(posts);
+    return user;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
 export default apiService;

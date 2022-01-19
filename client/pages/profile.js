@@ -19,14 +19,14 @@ const profile = () => {
   }
 
   return (
-    <div>
+    <>
       {user &&
         <div>
           <UserInfo user={user} />
           <PostList passedPosts={user.posts} />
         </div>
       }
-    </div>
+    </>
   )
 }
 
