@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useContext, useEffect } from 'react'
 import { AuthContext } from '../lib/context/authContext'
 import styles from '../styles/Home.module.css'
-import PostForm from '../components/PostForm';
 import PostList from '../components/PostList';
 
 
