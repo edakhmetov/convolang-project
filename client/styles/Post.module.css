@@ -37,7 +37,7 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  height: 150px;
+  height: 200px;
   width: 100%;
   margin-bottom: 25px;
 }
@@ -45,7 +45,7 @@
 .formInput {
   font-size: 18px;
   height: 60%;
-  border: 1px solid rgb(243, 243, 243);
+  border: 1px solid rgb(138, 159, 250);
   margin-bottom: 5px;
   padding-left: 10px;
   border-radius: 10px;
@@ -63,14 +63,22 @@
 }
 
 .formButton {
-  border: 1px solid rgb(243, 243, 243);
+  font-variant: small-caps;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin: 15px auto;
+  height: 40px;
+  /* margin-top: 10px; */
+  width: 100%;
+  padding: 10px 0;
+  border: 1px solid rgb(138, 159, 250);
   border-radius: 10px;
-  height: 30px;
   background-color: rgb(255, 255, 255);
   transition: all 0.3s ease;
 }
 
 .formButton:hover, .formButton:focus {
-  background-color: rgb(248, 248, 248);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.25), 0 2px 2px rgba(0,0,0,0.22);
+  outline: none;
+  background-color: rgb(138, 159, 250);
+  color: rgb(255, 255, 255);
 }

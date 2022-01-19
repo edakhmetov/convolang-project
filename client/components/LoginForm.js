@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../lib/context/authContext';
-import apiService from "../lib/api/apiService";
-import formStyles from '../styles/Form.module.css'
+import apiService from '../lib/api/apiService';
+import styles from '../styles/Form.module.css'
 
 const initialState = {
   username: '',
@@ -42,15 +42,14 @@ const LoginForm = () => {
 
 
   return (
-    <div className={formStyles.container}>
-      <form className={formStyles.form} onSubmit={handleSubmit}>
-        <label htmlFor='username'>Username</label>
-        <input type="text" name="username" value={formData.username} onChange={handleChange} />
-        <label htmlFor='password'>Password</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} />
-        <input type="submit" />
-      </form>
-    </div>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className={styles.title}>Login</h1>
+      <label className={styles.label} htmlFor='username'>Username</label>
+      <input required autoComplete='off' className={styles.input} type='text' name='username' value={formData.username} onChange={handleChange} />
+      <label className={styles.label} htmlFor='password'>Password</label>
+      <input required autoComplete='off' className={styles.input} type='password' name='password' value={formData.password} onChange={handleChange} />
+      <input className={styles.button} type='submit' />
+    </form>
   )
 }
 

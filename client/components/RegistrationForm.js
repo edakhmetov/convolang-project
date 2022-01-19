@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useContext, useEffect } from 'react';
 import apiService from '../lib/api/apiService';
 import { AuthContext } from '../lib/context/authContext';
-import formStyles from '../styles/Form.module.css'
+import styles from '../styles/Form.module.css'
 
 
 const initialState = {
@@ -41,23 +41,84 @@ const RegistrationForm = () => {
   }
 
   return (
-    <div className='form-container'>
-      <form className={formStyles.form} onSubmit={register}>
-        <label htmlFor='firstName'>First Name</label>
-        <input type='text' name='firstName' onChange={handleChange} required />
-        <label htmlFor='lastName'>Last Name</label>
-        <input type='text' name='lastName' onChange={handleChange} required />
-        <label htmlFor='username'>username</label>
-        <input type='text' name='username' onChange={handleChange} required />
-        <label htmlFor='password'>Password</label>
-        <input type='password' name='password' onChange={handleChange} required />
-        <label htmlFor='nativeLanguages'>Native Languages</label>
-        <input type='text' name='nativeLanguages' onChange={handleChange} required />
-        <label htmlFor='learningLanguages'>Learning Languages</label>
-        <input type='text' name='learningLanguages' onChange={handleChange} required />
-        <input type='submit' />
-      </form>
-    </div>
+    <form className={styles.form} onSubmit={register}>
+      <h1 className={styles.title}>Register</h1>
+      <label
+        className={styles.label}
+        htmlFor='firstName'
+      >First Name</label>
+      <input
+        className={styles.input}
+        type='text' name='firstName'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <label
+        className={styles.label}
+        htmlFor='lastName'
+      >Last Name</label>
+      <input
+        className={styles.input}
+        type='text'
+        name='lastName'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <label
+        className={styles.label}
+        htmlFor='username'
+      >Username</label>
+      <input
+        className={styles.input}
+        type='text' name='username'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <label
+        className={styles.label}
+        htmlFor='password'
+      >Password</label>
+      <input
+        className={styles.input}
+        type='password'
+        name='password'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <label
+        className={styles.label}
+        htmlFor='nativeLanguages'
+      >Native Language</label>
+      <input
+        className={styles.input}
+        type='text'
+        name='nativeLanguages'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <label
+        className={styles.label}
+        htmlFor='learningLanguages'
+      >Learning Language</label>
+      <input
+        className={styles.input}
+        type='text'
+        name='learningLanguages'
+        onChange={handleChange}
+        required
+        autoComplete='off'
+      />
+      <input
+        className={styles.button}
+        type='submit'
+        value='register'
+      />
+    </form>
   )
 }
 

@@ -30,7 +30,7 @@ const Home = () => {
                 Sign Up
               </button>
             </Link>
-            <p className={styles.login}>Already have account? <Link href='/login'><div>Login</div></Link></p>
+            <div className={styles.login}>Already have account? <Link href='/login'><div>Login</div></Link></div>
           </div>
         </main>
       }
