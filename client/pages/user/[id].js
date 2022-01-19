@@ -66,8 +66,8 @@ const userPage = () => {
         <div>
           <UserInfo user={userInfo} />
           {isFollowing
-            ? <button className={styles.followButton} onClick={() => unfollow(userInfo.id)}>Unfollow</button>
-            : <button className={styles.followButton} onClick={() => follow(userInfo.id)}>Follow</button>}
+            ? <div className={styles.buttonWrapper}><button className={styles.followButton} onClick={() => unfollow(userInfo.id)}>Unfollow</button></div>
+            : <div className={styles.buttonWrapper}><button className={styles.followButton} onClick={() => follow(userInfo.id)}>Follow</button></div>}
           <PostList passedPosts={userInfo.posts} />
         </div>
       }

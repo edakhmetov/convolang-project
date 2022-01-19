@@ -24,3 +24,29 @@
   font-variant: small-caps;
   font-weight: 400;
 }
+
+.buttonWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.followButton {
+  width: 350px;
+  margin: 25px auto;
+
+  cursor: pointer;
+  font-variant: small-caps;
+  font-size: 16px;
+
+  padding: 10px 0;
+  border: 1px solid rgb(138, 159, 250);
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  transition: all 0.3s ease;
+}
+
+.followButton:hover {
+  outline: none;
+  background-color: rgb(138, 159, 250);
+  color: rgb(255, 255, 255);
+}

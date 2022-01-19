@@ -9,8 +9,8 @@ import listStyles from '../../styles/List.module.css';
 const initState = {
   content: '',
   owner: {
-    firstName: 'ed',
-    lastName: 'akhmetov'
+    firstName: 'fake',
+    lastName: 'user'
   },
   createdAt: Date.now()
 }
@@ -59,7 +59,7 @@ const postPage = () => {
       {comments.length > 0 &&
         comments.map((c, index) => (
           <div className={postStyles.container} key={index}>
-            <p className={postStyles.creator}>{post.owner.firstName} {post.owner.lastName} commented on {moment(post.createdAt).format('MMMM Do, YYYY')}</p>
+            <p className={postStyles.creator}>{c.owner.firstName} {c.owner.lastName} commented on {moment(c.createdAt).format('MMMM Do, YYYY')}</p>
             <p className={postStyles.content}>{c.content}</p>
           </div>
         ))
