@@ -32,8 +32,6 @@ exports.login = async (req, res) => {
     if (user.length === 0) throw new Error();
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) throw new Error();
-    // create JWT and sign it with USER_ID to identify user, and send it back to the client
-    // response will send JWT back
     const accessToken = jwt.sign({ userId: user.id }, process.env.JWT);
     res.status(200).send({ accessToken });
   } catch (e) {
@@ -44,7 +42,7 @@ exports.login = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    let id = req.params.id ? req.params.id : req.userId;
     const user = await db.User.findOne({
       where: {
         id
@@ -62,18 +60,14 @@ exports.getUser = async (req, res) => {
     });
     res.status(200).send(user);
   } catch (e) {
-    // console.error(e);
+    console.error(e);
     res.status(500).send('error');
   }
 };
 
-exports.getMe = async (req, res) => {
-  res.status(200).send(req.user);
-};
-
 exports.getNativeLanguageSpeaker = async (req, res) => {
   try {
-    const language = req.user.learningLanguages;
+    const language = req.userId.learningLanguages;
     const users = await db.User.findAll({
       where: {
         nativeLanguages: {
@@ -81,7 +75,6 @@ exports.getNativeLanguageSpeaker = async (req, res) => {
         }
       }
     });
-    // console.log(users);
     res.status(200).send(users);
   } catch (e) {
     console.error(e);
@@ -91,7 +84,7 @@ exports.getNativeLanguageSpeaker = async (req, res) => {
 
 exports.getLearningLanguageSpeaker = async (req, res) => {
   try {
-    const language = req.user.nativeLanguages;
+    const language = req.userId.nativeLanguages;
     const users = await db.User.findAll({
       where: {
         learningLanguages: {
@@ -99,7 +92,6 @@ exports.getLearningLanguageSpeaker = async (req, res) => {
         }
       }
     });
-    // console.log(users);
     res.status(200).send(users);
   } catch (e) {
     console.error(e);
@@ -110,10 +102,7 @@ exports.getLearningLanguageSpeaker = async (req, res) => {
 exports.logout = async (req, res) => {
   const { token } = req.body;
   try {
-    const blacklistedToken = await db.Blacklist.create({
-      token
-    });
-    // console.log(blacklistedToken);
+    await db.Blacklist.create({ token });
     res.status(200).send({ message: 'Successfully logged out' });
   } catch (e) {
     console.error(e);
@@ -126,7 +115,7 @@ exports.followUser = async (req, res) => {
   const { id } = req.params;
   try {
     const follower = await db.Follower.create({
-      userId: req.user.id,
+      userId: req.userId,
       followerId: id
     });
     res.status(200).send(follower);
@@ -141,7 +130,7 @@ exports.unfollowUser = async (req, res) => {
   try {
     await db.Follower.destroy({
       where: {
-        userId: req.user.id,
+        userId: req.userId,
         followerId: id
       }
     });
@@ -149,99 +138,6 @@ exports.unfollowUser = async (req, res) => {
   } catch (e) {
     console.error('error unfollow', e);
     res.status(500).send('error');
-  }
-};
-
-exports.createPost = async (req, res) => {
-  try {
-    // console.log('userid from cretepost', req.user.id)
-    const post = await db.Post.create({
-      content: req.body.content,
-      userId: req.user.id,
-    });
-    // console.log(post);
-    res.status(200).send({ message: 'created post' });
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: '500', message: 'Error while creating post' });
-  }
-};
-
-exports.getUserPosts = async (req, res) => {
-  // console.log('id from the getuserposts', id);
-  try {
-    const id = req.user.id;
-    const ids = req.user.followings.map(u => u.followerId);
-    const userPosts = await db.Post.findAll({
-      where: {
-        userId: {
-          [Op.in]: [...ids, id]
-        }
-      },
-      include: [
-        {
-          model: db.User,
-          as: 'owner',
-          attributes: ['id', 'firstName', 'lastName']
-        }
-      ],
-      order: [
-        ['createdAt', 'DESC']
-      ]
-    });
-    res.status(200).send(userPosts);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
-  }
-};
-
-exports.getPost = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const post = await db.Post.findOne({
-      where: {
-        id
-      },
-      include: [
-        {
-          model: db.User,
-          as: 'owner',
-          attributes: ['id', 'firstName', 'lastName']
-        }
-      ]
-    });
-    // console.log(post)
-    res.status(200).send(post);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
-  }
-};
-
-exports.getMyPosts = async (req, res) => {
-  try {
-    const id = req.user.id;
-    const userPosts = await db.Post.findAll({
-      where: {
-        userId: id
-      },
-      include: [
-        {
-          model: db.User,
-          as: 'owner',
-          attributes: ['id', 'firstName', 'lastName']
-        }
-      ],
-      order: [
-        ['createdAt', 'DESC']
-      ]
-    });
-    console.log(userPosts);
-    res.status(200).send(userPosts);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: '500', message: 'Error while retrieving posts' });
   }
 };
 
@@ -257,29 +153,9 @@ exports.getFollowers = async (req, res) => {
         attributes: ['id', 'firstName', 'lastName']
       }]
     });
-    // console.log(followers);
     res.status(200).send(followers.map(follower => follower.followings));
   } catch (e) {
     console.error(e);
     res.status(500).send({ error: '500', message: 'Error retrieving followers' });
-  }
-};
-
-exports.getFollowingsPosts = async (req, res) => {
-  try {
-    const ids = req.user.followings.map(u => u.followerId);
-    // console.log(ids);
-    const posts = await db.Post.findAll({
-      where: {
-        userId: {
-          [Op.in]: ids
-        }
-      }
-    });
-    // console.log(posts);
-    res.status(200).send(posts);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: '500', message: 'Error retrieving followings posts' });
   }
 };

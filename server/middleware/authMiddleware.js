@@ -13,7 +13,7 @@ module.exports = authMiddleware = async (req, res, next) => {
     });
     if (tokenInBlacklist) throw new Error();
     const { userId } = jwt.verify(accessToken, process.env.JWT);
-    req.userId = { userId };
+    req.userId = userId;
     next();
   } catch (e) {
     res.status(403).send({ error: '403', message: 'Permission denied!' });
