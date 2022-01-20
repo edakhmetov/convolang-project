@@ -34,13 +34,12 @@ exports.login = async (req, res) => {
     if (!isValidPassword) throw new Error();
     // create JWT and sign it with USER_ID to identify user, and send it back to the client
     // response will send JWT back
-    const accessToken = jwt.sign({ user_id: user.id }, process.env.JWT);
+    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT);
     res.status(200).send({ accessToken });
   } catch (e) {
-    // console.error(e);
+    console.error(e);
     res.status(401).send({ error: '401', message: 'Invalid username and/or password' });
   }
-
 };
 
 exports.getUser = async (req, res) => {

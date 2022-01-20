@@ -12,7 +12,8 @@ const config = {
   logging: false
 };
 
-const sequelize = new Sequelize('convolang', 'postgres', PASSWORD, config);
+
+const sequelize = new Sequelize('convolang-dev', 'postgres', PASSWORD, config);
 const db = {};
 
 const files = fs.readdirSync(__dirname);
