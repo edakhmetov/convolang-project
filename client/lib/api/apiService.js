@@ -209,6 +209,7 @@ apiService.unfollowUser = async (id) => {
   }
 };
 
+//NOT BEING USED 1/20/22
 apiService.getMyPosts = async () => {
   try {
     const url = `${BASE_URL}/myPosts`;
@@ -223,7 +224,6 @@ apiService.getMyPosts = async () => {
       },
     });
     const posts = await res.json();
-    // console.log(posts);
     return posts;
   } catch (e) {
     console.error(e);
