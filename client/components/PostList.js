@@ -13,11 +13,10 @@ const PostList = ({ user, passedPosts }) => {
     else getPosts();
   }, [])
 
-  // console.log(posts);
-
   const getPosts = async () => {
     const userPosts = await apiService.getUserPosts();
     setPosts([...userPosts]);
+    console.log(userPosts)
   }
 
   return (

@@ -8,7 +8,7 @@ import apiService from '../lib/api/apiService';
 
 const Nav = () => {
   const router = useRouter();
-  const { user, setUser, setIsLoggedIn } = useContext(AuthContext);
+  const { user, setUser, setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   // console.log('in the nav', user);
 
@@ -18,8 +18,9 @@ const Nav = () => {
     setUser(null);
     setIsLoggedIn(false);
     router.push('/');
+    console.log(isLoggedIn);
   }
-
+ 
   const renderLinks = () => {
     if (!user) {
       return (

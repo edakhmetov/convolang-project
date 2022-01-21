@@ -15,7 +15,6 @@ const profile = () => {
       }
       return p
     });
-    // console.log(user.posts);
   }
 
   return (

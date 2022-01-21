@@ -32,7 +32,6 @@ const RegistrationForm = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    // console.log(formData);
     const user = await apiService.register(formData);
     const res = await apiService.login({ username: formData.username, password: formData.password })
     // console.log(res);

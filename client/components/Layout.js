@@ -10,18 +10,13 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      const user = await apiService.getLoggedUser();
-      // console.log('from the layout', user);
+      const user = await apiService.getUserInfo();
       if (user) {
         setUser(user);
         setIsLoggedIn(true);
       }
     })()
   }, [isLoggedIn])
-
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user])
 
   return (
     <AuthProvider value={{user, setUser, setIsLoggedIn, isLoggedIn}} >

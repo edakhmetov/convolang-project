@@ -4,14 +4,12 @@ import apiService from '../lib/api/apiService';
 import styles from '../styles/Post.module.css'
 
 const initialState = {
-  content: '',
+  content: ''
 }
 
 const PostForm = ({ getPosts }) => {
 
   const { user } = useContext(AuthContext);
-
-  // const router = useRouter();
 
   const [formData, setFormData] = useState(initialState);
 
@@ -30,8 +28,6 @@ const PostForm = ({ getPosts }) => {
 
 
   return (
-    // <div>
-    // </div>
     <form className={styles.formContainer} onSubmit={handleSubmit}>
       <label
         className={styles.formLabel}
