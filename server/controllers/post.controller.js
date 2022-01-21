@@ -1,4 +1,5 @@
 const db = require('../models');
+const { Op } = require("sequelize");
 
 exports.createPost = async (req, res) => {
   try {
@@ -10,14 +11,14 @@ exports.createPost = async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).send({ error: '500', message: 'Error while creating post' });
-  }
+  };
 };
 
 exports.getUserFeed = async (req, res) => {
   try {
     const userId = req.userId;
-    const user = await db.User.findOne({ where: { id: userId } })
-    const followingIds = user.followings.map(following => following.followerId);
+    const followings = await db.Follower.findAll({ where: { userId }});
+    const followingIds = followings.map(following => following.followerId);
     const userFeed = await db.Post.findAll({
       where: {
         userId: {
@@ -91,13 +92,13 @@ exports.getMyPosts = async (req, res) => {
 
 exports.getFollowingsPosts = async (req, res) => {
   try {
-    const id = req.userId
-    const user = await db.User.findOne({ where: { id } })
-    const ids = user.followings.map(following => following.followerId);
+    const userId = req.userId
+    const followings = await db.Follower.findAll({ where: { userId } });
+    const followingIds = followings.map(following => following.followerId);
     const posts = await db.Post.findAll({
       where: {
         userId: {
-          [Op.in]: ids
+          [Op.in]: followingIds
         }
       }
     });

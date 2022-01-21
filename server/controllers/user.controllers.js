@@ -67,7 +67,8 @@ exports.getUser = async (req, res) => {
 
 exports.getNativeLanguageSpeaker = async (req, res) => {
   try {
-    const language = req.userId.learningLanguages;
+    const user = await db.User.findOne({ where: { id: req.userId } });
+    const language = user.learningLanguages;
     const users = await db.User.findAll({
       where: {
         nativeLanguages: {
@@ -84,7 +85,8 @@ exports.getNativeLanguageSpeaker = async (req, res) => {
 
 exports.getLearningLanguageSpeaker = async (req, res) => {
   try {
-    const language = req.userId.nativeLanguages;
+    const user = await db.User.findOne({ where: { id: req.userId } });
+    const language = user.nativeLanguages;
     const users = await db.User.findAll({
       where: {
         learningLanguages: {
@@ -145,7 +147,7 @@ exports.getFollowers = async (req, res) => {
   try {
     const followers = await db.Follower.findAll({
       where: {
-        followerId: 3,
+        followerId: req.params.id,
       },
       include: [{
         model: db.User,
