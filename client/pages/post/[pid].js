@@ -28,7 +28,6 @@ const postPage = () => {
 
   const getPost = async () => {
     const foundPost = await apiService.getPost(pid);
-    // console.log(foundPost);
     setPost(foundPost);
   }
 

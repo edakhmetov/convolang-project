@@ -7,13 +7,13 @@ const profile = () => {
   const { user } = useContext(AuthContext);
 
   if (user) {
-    user.posts = user.posts.map(p => {
-      p.owner = {
+    user.posts = user.posts.map(post => {
+      post.owner = {
         firstName: user.firstName,
         lastName: user.lastName,
         id: user.id
       }
-      return p
+      return post
     });
   }
 
