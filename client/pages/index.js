@@ -1,13 +1,11 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { useContext } from 'react'
-import { AuthContext } from '../lib/context/authContext'
-import PostList from '../components/PostList';
-import styles from '../styles/Home.module.css'
-
+import Head from 'next/head';
+import Link from 'next/link';
+import { useContext } from 'react';
+import { AuthContext } from '../lib/context/AuthContext';
+import PostList from '../domains/posts/PostList';
+import styles from '../styles/Home.module.css';
 
 const Home = () => {
-
   const { user } = useContext(AuthContext);
 
   return (
@@ -16,29 +14,34 @@ const Home = () => {
         <title>Convolang</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!user &&
+      {!user && (
         <main className={styles.container}>
-          <h1 className={styles.title}>
-            Welcome to Convolang
-          </h1>
+          <h1 className={styles.title}>Welcome to Convolang</h1>
           <h2 className={styles.description}>
-            An app where you can learn languages through conversations with native speakers, share your thoughts and knowledge, and make new friends!
+            An app where you can learn languages through conversations with
+            native speakers, share your thoughts and knowledge, and make new
+            friends!
           </h2>
           <div className={styles.buttons}>
-            <Link href='/register'>
-              <button className={styles.button}>
-                Sign Up
-              </button>
+            <Link href="/register">
+              <button className={styles.button}>Sign Up</button>
             </Link>
-            <div className={styles.login}>Already have account? <Link href='/login'><div>Login</div></Link></div>
+            <div className={styles.login}>
+              Already have account?{' '}
+              <Link href="/login">
+                <div>Login</div>
+              </Link>
+            </div>
           </div>
         </main>
-      }
-      {user && <div>
-        <PostList user={user} />
-      </div>}
+      )}
+      {user && (
+        <div>
+          <PostList user={user} />
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,16 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { AuthContext } from '../lib/context/authContext';
-import apiService from '../lib/api/apiService';
-import styles from '../styles/Form.module.css'
+import { AuthContext } from '../../lib/context/AuthContext';
+import apiService from '../../lib/api/apiService';
+import styles from '../../styles/Form.module.css';
 
 const initialState = {
   username: '',
-  password: ''
-}
+  password: '',
+};
 
 const LoginForm = () => {
-
   const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   const router = useRouter();
@@ -24,7 +23,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isLoggedIn == true) router.push('/');
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,20 +36,38 @@ const LoginForm = () => {
       // router.push('/');
     }
     setFormData(initialState);
-  }
-
-
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h1 className={styles.title}>Login</h1>
-      <label className={styles.label} htmlFor='username'>Username</label>
-      <input required autoComplete='off' className={styles.input} type='text' name='username' value={formData.username} onChange={handleChange} />
-      <label className={styles.label} htmlFor='password'>Password</label>
-      <input required autoComplete='off' className={styles.input} type='password' name='password' value={formData.password} onChange={handleChange} />
-      <input className={styles.button} type='submit' />
+      <label className={styles.label} htmlFor="username">
+        Username
+      </label>
+      <input
+        required
+        autoComplete="off"
+        className={styles.input}
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+      />
+      <label className={styles.label} htmlFor="password">
+        Password
+      </label>
+      <input
+        required
+        autoComplete="off"
+        className={styles.input}
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+      />
+      <input className={styles.button} type="submit" />
     </form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

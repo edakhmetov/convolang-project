@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import { useState, useContext, useEffect } from 'react';
-import apiService from '../lib/api/apiService';
-import { AuthContext } from '../lib/context/authContext';
-import styles from '../styles/Form.module.css'
-
+import apiService from '../../lib/api/apiService';
+import { AuthContext } from '../../lib/context/AuthContext';
+import styles from '../../styles/Form.module.css';
 
 const initialState = {
   firstName: '',
@@ -11,19 +10,18 @@ const initialState = {
   username: '',
   password: '',
   nativeLanguages: '',
-  learningLanguages: ''
-}
+  learningLanguages: '',
+};
 
 const RegistrationForm = () => {
   const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
 
-
   const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
     if (isLoggedIn == true) router.push('/');
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,92 +31,87 @@ const RegistrationForm = () => {
   const register = async (e) => {
     e.preventDefault();
     const user = await apiService.register(formData);
-    const res = await apiService.login({ username: formData.username, password: formData.password })
+    const res = await apiService.login({
+      username: formData.username,
+      password: formData.password,
+    });
     // console.log(res);
     setIsLoggedIn(true);
     // router.push('/');
-  }
+  };
 
   return (
     <form className={styles.form} onSubmit={register}>
       <h1 className={styles.title}>Register</h1>
-      <label
-        className={styles.label}
-        htmlFor='firstName'
-      >First Name</label>
+      <label className={styles.label} htmlFor="firstName">
+        First Name
+      </label>
       <input
         className={styles.input}
-        type='text' name='firstName'
+        type="text"
+        name="firstName"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <label
-        className={styles.label}
-        htmlFor='lastName'
-      >Last Name</label>
+      <label className={styles.label} htmlFor="lastName">
+        Last Name
+      </label>
       <input
         className={styles.input}
-        type='text'
-        name='lastName'
+        type="text"
+        name="lastName"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <label
-        className={styles.label}
-        htmlFor='username'
-      >Username</label>
+      <label className={styles.label} htmlFor="username">
+        Username
+      </label>
       <input
         className={styles.input}
-        type='text' name='username'
+        type="text"
+        name="username"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <label
-        className={styles.label}
-        htmlFor='password'
-      >Password</label>
+      <label className={styles.label} htmlFor="password">
+        Password
+      </label>
       <input
         className={styles.input}
-        type='password'
-        name='password'
+        type="password"
+        name="password"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <label
-        className={styles.label}
-        htmlFor='nativeLanguages'
-      >Native Language</label>
+      <label className={styles.label} htmlFor="nativeLanguages">
+        Native Language
+      </label>
       <input
         className={styles.input}
-        type='text'
-        name='nativeLanguages'
+        type="text"
+        name="nativeLanguages"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <label
-        className={styles.label}
-        htmlFor='learningLanguages'
-      >Learning Language</label>
+      <label className={styles.label} htmlFor="learningLanguages">
+        Learning Language
+      </label>
       <input
         className={styles.input}
-        type='text'
-        name='learningLanguages'
+        type="text"
+        name="learningLanguages"
         onChange={handleChange}
         required
-        autoComplete='off'
+        autoComplete="off"
       />
-      <input
-        className={styles.button}
-        type='submit'
-        value='register'
-      />
+      <input className={styles.button} type="submit" value="register" />
     </form>
-  )
-}
+  );
+};
 
-export default RegistrationForm
+export default RegistrationForm;

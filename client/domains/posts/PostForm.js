@@ -1,14 +1,13 @@
 import { useState, useContext } from 'react';
-import { AuthContext } from '../lib/context/authContext';
-import apiService from '../lib/api/apiService';
-import styles from '../styles/Post.module.css'
+import { AuthContext } from '../../lib/context/AuthContext';
+import apiService from '../../lib/api/apiService';
+import styles from '../../styles/Post.module.css';
 
 const initialState = {
-  content: ''
-}
+  content: '',
+};
 
 const PostForm = ({ getPosts }) => {
-
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState(initialState);
@@ -23,34 +22,26 @@ const PostForm = ({ getPosts }) => {
     const data = await apiService.createPost(formData);
     setFormData(initialState);
     getPosts();
-  }
-
-
+  };
 
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit}>
-      <label
-        className={styles.formLabel}
-        htmlFor='content'
-      >
+      <label className={styles.formLabel} htmlFor="content">
         Create a post
       </label>
       <input
         className={styles.formInput}
-        type='textarea'
-        name='content'
+        type="textarea"
+        name="content"
         value={formData.content}
-        autoComplete='off'
+        autoComplete="off"
         required={true}
-        placeholder='Share something...'
+        placeholder="Share something..."
         onChange={handleChange}
       />
-      <input
-        className={styles.formButton}
-        type='submit'
-      />
+      <input className={styles.formButton} type="submit" />
     </form>
-  )
-}
+  );
+};
 
 export default PostForm;

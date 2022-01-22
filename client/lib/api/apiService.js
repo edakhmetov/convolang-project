@@ -46,7 +46,7 @@ apiService.logout = async () => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ token: accessToken }),
     });
@@ -54,7 +54,7 @@ apiService.logout = async () => {
   } catch (e) {
     console.error(e);
   }
-}
+};
 //COMBINED WITH GETUSERINFO()
 // apiService.getLoggedUser = async () => {
 //   try {
@@ -86,9 +86,9 @@ apiService.createPost = async (formData) => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`
+        authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     });
     const data = await res.json();
     return data;
@@ -108,7 +108,7 @@ apiService.getUserPosts = async () => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const posts = await res.json();
@@ -129,7 +129,7 @@ apiService.getNativeSpeakers = async () => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const users = await res.json();
@@ -150,7 +150,7 @@ apiService.getLearningSpeakers = async () => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const users = await res.json();
@@ -170,7 +170,7 @@ apiService.followUser = async (id) => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const data = await res.json();
@@ -190,7 +190,7 @@ apiService.unfollowUser = async (id) => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const data = await res.json();
@@ -227,14 +227,15 @@ apiService.getUserInfo = async (id) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) throw new Error('no access token');
-    const url = id === undefined ? `${BASE_URL}/profile` : `${BASE_URL}/user/${id}`;
+    const url =
+      id === undefined ? `${BASE_URL}/profile` : `${BASE_URL}/user/${id}`;
     const res = await fetch(url, {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const user = await res.json();
@@ -255,7 +256,7 @@ apiService.getPost = async (id) => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`,
       },
     });
     const post = await res.json();
@@ -264,6 +265,6 @@ apiService.getPost = async (id) => {
     console.error(e);
     return null;
   }
-}
+};
 
 export default apiService;

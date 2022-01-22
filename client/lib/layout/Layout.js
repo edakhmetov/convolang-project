@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import apiService from '../lib/api/apiService';
-import Nav from '../components/Nav';
-import { AuthProvider } from '../lib/context/authContext';
+import apiService from '../api/apiService';
+import Nav from './Nav';
+import { AuthProvider } from '../context/AuthContext';
 
 const Layout = ({ children }) => {
-
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -15,17 +14,15 @@ const Layout = ({ children }) => {
         setUser(user);
         setIsLoggedIn(true);
       }
-    })()
-  }, [isLoggedIn])
+    })();
+  }, [isLoggedIn]);
 
   return (
-    <AuthProvider value={{user, setUser, setIsLoggedIn, isLoggedIn}} >
+    <AuthProvider value={{ user, setUser, setIsLoggedIn, isLoggedIn }}>
       <Nav />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
     </AuthProvider>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
