@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../lib/context/authContext';
 import apiService from '../lib/api/apiService';
 import styles from '../styles/Post.module.css'
+import useUserPosts from '../lib/hooks/useUserPosts';
 
 const initialState = {
   content: ''
@@ -24,6 +25,11 @@ const PostForm = ({ getPosts }) => {
     setFormData(initialState);
     getPosts();
   }
+
+
+  const { posts }   = useUserPosts('http://localhost:3001/posts')
+  console.log('new posts', posts)
+
 
 
 

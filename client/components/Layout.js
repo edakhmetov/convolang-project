@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import apiService from '../lib/api/apiService';
 import Nav from '../components/Nav';
+import useUserInfo from '../lib/hooks/useUserInfo';
 import { AuthProvider } from '../lib/context/authContext';
+
 
 const Layout = ({ children }) => {
 
   const [user, setUser] = useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -16,7 +19,11 @@ const Layout = ({ children }) => {
         setIsLoggedIn(true);
       }
     })()
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
+
+
+  
+
 
   return (
     <AuthProvider value={{user, setUser, setIsLoggedIn, isLoggedIn}} >

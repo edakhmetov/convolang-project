@@ -98,6 +98,7 @@ apiService.createPost = async (formData) => {
   }
 };
 
+//hookified
 apiService.getUserPosts = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
