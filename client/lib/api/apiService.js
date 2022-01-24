@@ -11,7 +11,6 @@ apiService.register = async (formData) => {
       body: JSON.stringify(formData),
     });
     const data = await res.json();
-    console.log('from the register api', data);
     return data;
   } catch (e) {
     console.log(e);

@@ -14,14 +14,14 @@ const initialState = {
 };
 
 const RegistrationForm = () => {
-  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const router = useRouter();
 
   const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
-    if (isLoggedIn == true) router.push('/');
-  }, [isLoggedIn]);
+    if (user) router.push('/');
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,13 +31,12 @@ const RegistrationForm = () => {
   const register = async (e) => {
     e.preventDefault();
     const user = await apiService.register(formData);
-    const res = await apiService.login({
+    setUser(user);
+    await apiService.login({
       username: formData.username,
       password: formData.password,
     });
-    // console.log(res);
-    setIsLoggedIn(true);
-    // router.push('/');
+    router.push('/');
   };
 
   return (

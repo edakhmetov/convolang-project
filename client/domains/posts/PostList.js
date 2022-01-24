@@ -15,7 +15,6 @@ const PostList = ({ user, passedPosts }) => {
   const getPosts = async () => {
     const userPosts = await apiService.getUserPosts();
     setPosts([...userPosts]);
-    console.log(userPosts);
   };
 
   return (

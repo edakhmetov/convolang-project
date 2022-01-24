@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const LoginForm = () => {
-  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -21,21 +21,16 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {
-    if (isLoggedIn == true) router.push('/');
-  }, [isLoggedIn]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await apiService.login(formData);
+    setUser(await apiService.getUserInfo());
     if (!data.error) {
-      // localStorage.setItem('accessToken', data.accessToken);
-      // this will re-render navbar to display needed links
-      setIsLoggedIn(true);
-      // this will send a user to '/' route
-      // router.push('/');
+      router.push('/');
+    } else {
+      alert(data.message);
+      setFormData(initialState);
     }
-    setFormData(initialState);
   };
 
   return (

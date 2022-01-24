@@ -1,23 +1,21 @@
 import Link from 'next/link';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import navStyles from '../../styles/Nav.module.css';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+
+import { AuthContext } from '../context/AuthContext';
 import apiService from '../api/apiService';
+
+import navStyles from '../../styles/Nav.module.css';
 
 const Nav = () => {
   const router = useRouter();
-  const { user, setUser, setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
-
-  // console.log('in the nav', user);
+  const { user, setUser } = useContext(AuthContext);
 
   const logout = async () => {
     await apiService.logout();
     localStorage.removeItem('accessToken');
     setUser(null);
-    setIsLoggedIn(false);
     router.push('/');
-    console.log(isLoggedIn);
   };
 
   const renderLinks = () => {

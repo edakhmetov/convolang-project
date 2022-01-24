@@ -26,7 +26,7 @@ const discover = () => {
           People that know {user.learningLanguages}
         </h1>
       )}
-      {user && <DiscoverList user={user} users={nativeSpeakers} />}
+      <DiscoverList users={nativeSpeakers} />
       {/* {user && <h1>People that know {user.nativeLanguages}</h1>}
       {user && learningSpeakers.map(u => (
         <div key={u.id}>

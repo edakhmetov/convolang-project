@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import apiService from '../../lib/api/apiService';
+import { AuthContext } from '../../lib/context/AuthContext';
 import Link from 'next/link';
 import styles from '../../styles/Discover.module.css';
 
-const DiscoverList = ({ user, users }) => {
+const DiscoverList = ({ users }) => {
+  const { user } = useContext(AuthContext);
   const isFollowed = (id) => {
     return user.followings.filter((u) => u.followerId === id).length > 0
       ? true
@@ -22,6 +25,8 @@ const DiscoverList = ({ user, users }) => {
     // setFollowing(false);
     // console.log(data);
   };
+
+  if (!user) return null;
 
   return users.map((u) => (
     <Link key={u.id} href={`/user/${u.id}`}>
