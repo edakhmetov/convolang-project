@@ -3,6 +3,7 @@ import { AuthContext } from '../lib/context/AuthContext';
 import apiService from '../lib/api/apiService';
 import DiscoverList from '../domains/discover/DiscoverList';
 import styles from '../styles/Discover.module.css';
+import useFetch from '../lib/hooks/useFetch';
 
 const discover = () => {
   const { user } = useContext(AuthContext);
@@ -18,6 +19,8 @@ const discover = () => {
       // setLearningSpeakers(learning);
     })();
   }, []);
+
+
 
   return (
     <div className={styles.listContainer}>

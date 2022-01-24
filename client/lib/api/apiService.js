@@ -97,6 +97,7 @@ apiService.createPost = async (formData) => {
   }
 };
 
+//hookified
 apiService.getUserPosts = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
@@ -117,7 +118,7 @@ apiService.getUserPosts = async () => {
     return [];
   }
 };
-
+//hookified
 apiService.getNativeSpeakers = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
@@ -138,7 +139,7 @@ apiService.getNativeSpeakers = async () => {
     return [];
   }
 };
-
+//hookified
 apiService.getLearningSpeakers = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
@@ -221,7 +222,7 @@ apiService.unfollowUser = async (id) => {
 //     return []
 //   }
 // };
-
+//hookfieid, minus id param
 apiService.getUserInfo = async (id) => {
   try {
     const accessToken = localStorage.getItem('accessToken');

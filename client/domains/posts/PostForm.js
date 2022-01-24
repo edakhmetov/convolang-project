@@ -3,6 +3,7 @@ import { AuthContext } from '../../lib/context/AuthContext';
 import apiService from '../../lib/api/apiService';
 import styles from '../../styles/Post.module.css';
 
+
 const initialState = {
   content: '',
 };
