@@ -3,7 +3,7 @@ import { AuthContext } from '../lib/context/authContext';
 import apiService from '../lib/api/apiService';
 import DiscoverList from '../components/DiscoverList';
 import styles from '../styles/Discover.module.css';
-import useNativeSpeakers from '../lib/hooks/useNativeSpeakers';
+import useFetch from '../lib/hooks/useFetch';
 
 
 const discover = () => {
@@ -21,7 +21,6 @@ const discover = () => {
       // setLearningSpeakers(learning);
     })()
   }, []);
-
 
 
 
