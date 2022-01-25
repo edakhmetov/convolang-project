@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../lib/context/AuthContext';
 import apiService from '../../lib/api/apiService';
@@ -10,6 +10,7 @@ const initialState = {
 };
 
 const LoginForm = () => {
+
   const { user, setUser } = useContext(AuthContext);
 
   const router = useRouter();
@@ -24,7 +25,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await apiService.login(formData);
-    setUser(await apiService.getUserInfo());
+      setUser(await apiService.getUserInfo());
     if (!data.error) {
       router.push('/');
     } else {

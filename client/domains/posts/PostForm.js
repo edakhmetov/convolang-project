@@ -9,7 +9,6 @@ const initialState = {
 };
 
 const PostForm = ({ getPosts }) => {
-  const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState(initialState);
 
@@ -20,7 +19,7 @@ const PostForm = ({ getPosts }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await apiService.createPost(formData);
+     await apiService.createPost(formData);
     setFormData(initialState);
     getPosts();
   };

@@ -3,6 +3,7 @@ import SinglePost from './SinglePost';
 import apiService from '../../lib/api/apiService';
 import PostForm from './PostForm';
 import styles from '../../styles/List.module.css';
+import useFetch from '../../lib/hooks/useFetch';
 
 const PostList = ({ user, passedPosts }) => {
   const [posts, setPosts] = useState([]);
@@ -11,12 +12,14 @@ const PostList = ({ user, passedPosts }) => {
     if (passedPosts) setPosts(passedPosts);
     else getPosts();
   }, []);
+  
 
   const getPosts = async () => {
     const userPosts = await apiService.getUserPosts();
     setPosts([...userPosts]);
   };
 
+  
   return (
     <div className={styles.container}>
       {!passedPosts && <PostForm getPosts={getPosts} />}

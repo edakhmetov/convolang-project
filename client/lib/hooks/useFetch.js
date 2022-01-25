@@ -5,10 +5,10 @@ const useFetch = ( url ) => {
 
   const [ response, setResponse ] = useState(null);
   const [ error, setError ] = useState(null);
-  const [ isLoading, setIsLoading ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(true);
  
   const fetchData = async () => {
-    setIsLoading(true)
+    console.log('fetching data')
     try {
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) throw new Error('no access token');
@@ -22,6 +22,7 @@ const useFetch = ( url ) => {
         }
       });
       const data = await res.json()
+      console.log('setting response')
        setResponse(data);
        setIsLoading(false);
     } catch (error) {
@@ -30,7 +31,9 @@ const useFetch = ( url ) => {
     }
   };
   useEffect(()=> {
-    fetchData();
+    (async ()=> {
+      await fetchData();
+    })()
   }, []);
 
   return { response, error, isLoading } 
