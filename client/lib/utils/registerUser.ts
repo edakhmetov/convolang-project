@@ -1,4 +1,11 @@
-exports.register = async (formData) => {
+export default async function register(formData: {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  learningLanguages: string;
+  nativeLanguages: string;
+}) {
   try {
     const res = await fetch('http://localhost:3001/register', {
       method: 'POST',
@@ -13,5 +20,4 @@ exports.register = async (formData) => {
     console.log(e);
     return e;
   }
-};
-
+}

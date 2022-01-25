@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../lib/context/AuthContext';
 import PostList from '../domains/posts/PostList';
 import styles from '../styles/Home.module.css';
+import User from '../lib/types/User';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -37,7 +38,7 @@ const Home = () => {
       )}
       {user && (
         <div>
-          <PostList user={user} />
+          <PostList />
         </div>
       )}
     </div>

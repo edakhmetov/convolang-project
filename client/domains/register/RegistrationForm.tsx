@@ -1,5 +1,13 @@
 import { useRouter } from 'next/router';
-import { useState, useContext, useEffect } from 'react';
+import {
+  useState,
+  useContext,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  ChangeEventHandler,
+  FormEventHandler,
+} from 'react';
 import apiService from '../../lib/api/apiService';
 import { AuthContext } from '../../lib/context/AuthContext';
 import styles from '../../styles/Form.module.css';
@@ -23,12 +31,15 @@ const RegistrationForm = () => {
     if (user) router.push('/');
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange: ChangeEventHandler = (e: ChangeEvent) => {
+    const { name, value } = e.target as typeof e.target & {
+      name: string;
+      value: string;
+    };
     setFormData({ ...formData, [name]: value });
   };
 
-  const register = async (e) => {
+  const register: FormEventHandler = async (e: FormEvent) => {
     e.preventDefault();
     const user = await apiService.register(formData);
     setUser(user);

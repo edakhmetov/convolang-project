@@ -1,9 +1,18 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEvent,
+  FormEventHandler,
+} from 'react';
 import apiService from '../../lib/api/apiService';
 import moment from 'moment';
 import postStyles from '../../styles/Post.module.css';
 import listStyles from '../../styles/List.module.css';
+import Post from '../../lib/types/Post';
+import Comment from '../../lib/types/Comment';
 
 const initState = {
   content: '',
@@ -11,14 +20,14 @@ const initState = {
     firstName: 'fake',
     lastName: 'user',
   },
-  createdAt: Date.now(),
+  createdAt: new Date(),
 };
 
 const postPage = () => {
   const router = useRouter();
   const { pid } = router.query;
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [post, setPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState(initState);
 
   useEffect(() => {
@@ -30,12 +39,15 @@ const postPage = () => {
     setPost(foundPost);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange: ChangeEventHandler = (e: ChangeEvent) => {
+    const { name, value } = e.target as typeof e.target & {
+      name: string;
+      value: string;
+    };
     setComment({ ...comment, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler = (e: FormEvent) => {
     e.preventDefault();
     setComments([...comments, comment]);
     setComment(initState);

@@ -1,8 +1,13 @@
 import moment from 'moment';
 import Link from 'next/link';
+import Post from '../../lib/types/Post';
 import postStyles from '../../styles/Post.module.css';
 
-const SinglePost = ({ post }) => {
+type SinglePostProps = {
+  post: Post;
+};
+
+const SinglePost = ({ post }: SinglePostProps) => {
   return (
     <Link href={`/post/${post.id}`}>
       <div className={`${postStyles.container} ${postStyles.main}`}>
