@@ -1,4 +1,4 @@
-exports.logout = async () => {
+export default async function logout() {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch('http://localhost:3001/logout', {
@@ -15,4 +15,4 @@ exports.logout = async () => {
   } catch (e) {
     console.error(e);
   }
-};
+}

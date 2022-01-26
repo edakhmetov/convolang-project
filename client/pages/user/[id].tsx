@@ -5,12 +5,14 @@ import apiService from '../../lib/api/apiService';
 import PostList from '../../domains/posts/PostList';
 import UserInfo from '../../domains/user/UserInfo';
 import styles from '../../styles/UserInfo.module.css';
+import User from '../../lib/types/User';
+import Follower from '../../lib/types/Follower';
 
 const userPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
@@ -23,10 +25,11 @@ const userPage = () => {
     if (userInfo) {
       console.log(userInfo);
       const isFollowed = () => {
-        userInfo.followers.filter((u) => u.userId === user.id).length > 0 
-        ? setIsFollowing(true) 
-        : setIsFollowing(false);
-  };
+        userInfo.followers.filter((u: Follower) => u.userId === user.id)
+          .length > 0
+          ? setIsFollowing(true)
+          : setIsFollowing(false);
+      };
       isFollowed();
     }
   }, [userInfo]);
@@ -47,13 +50,13 @@ const userPage = () => {
     if (foundUser) setUserInfo(foundUser);
   };
 
-  const follow = async (id) => {
+  const follow = async (id: number) => {
     const data = await apiService.followUser(id);
     setIsFollowing(true);
     await getUser();
   };
 
-  const unfollow = async (id) => {
+  const unfollow = async (id: number) => {
     const data = await apiService.unfollowUser(id);
     setIsFollowing(false);
     await getUser();

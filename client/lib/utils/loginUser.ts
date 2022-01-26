@@ -1,4 +1,7 @@
-exports.login = async (formData) => {
+export default async function login(formData: {
+  username: string;
+  password: string;
+}) {
   try {
     const res = await fetch('http://localhost:3001/login', {
       method: 'POST',
@@ -14,4 +17,4 @@ exports.login = async (formData) => {
     console.log(e);
     return e;
   }
-};
+}
