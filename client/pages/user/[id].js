@@ -23,10 +23,10 @@ const userPage = () => {
     if (userInfo) {
       console.log(userInfo);
       const isFollowed = () => {
-        userInfo.followers.filter((u) => u.userId === user.id).length > 0
-          ? setIsFollowing(true)
-          : setIsFollowing(false);
-      };
+        userInfo.followers.filter((u) => u.userId === user.id).length > 0 
+        ? setIsFollowing(true) 
+        : setIsFollowing(false);
+  };
       isFollowed();
     }
   }, [userInfo]);
@@ -66,23 +66,23 @@ const userPage = () => {
           <UserInfo user={userInfo} />
           {isFollowing ? (
             <div className={styles.buttonWrapper}>
-              <button
-                className={styles.followButton}
-                onClick={() => unfollow(userInfo.id)}
+              <button 
+              className={styles.followButton} 
+              onClick={() => unfollow(userInfo.id)}
               >
                 Unfollow
-              </button>
-            </div>
-          ) : (
+                </button>
+                </div>
+            ) : ( 
             <div className={styles.buttonWrapper}>
               <button
-                className={styles.followButton}
-                onClick={() => follow(userInfo.id)}
-              >
-                Follow
-              </button>
-            </div>
-          )}
+               className={styles.followButton} 
+               onClick={() => follow(userInfo.id)}
+               >
+                 Follow
+               </button>
+               </div>
+            )}
           <PostList passedPosts={userInfo.posts} />
         </div>
       )}
