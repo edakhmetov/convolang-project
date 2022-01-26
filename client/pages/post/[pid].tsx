@@ -17,8 +17,8 @@ import Comment from '../../lib/types/Comment';
 const initState = {
   content: '',
   owner: {
-    firstName: 'fake',
-    lastName: 'user',
+    firstName: '',
+    lastName: '',
   },
   createdAt: new Date(),
 };
@@ -26,16 +26,17 @@ const initState = {
 const postPage = () => {
   const router = useRouter();
   const { pid } = router.query;
+  const postId = Number(pid);
   const [post, setPost] = useState<Post | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState(initState);
 
   useEffect(() => {
-    if (pid) getPost();
-  }, [pid]);
+    if (postId) getPost();
+  }, [postId]);
+
 
   const getPost = async () => {
-    const foundPost = await apiService.getPost(pid);
+    const foundPost = await apiService.getPost(postId);
     setPost(foundPost);
   };
 
@@ -47,9 +48,10 @@ const postPage = () => {
     setComment({ ...comment, [name]: value });
   };
 
-  const handleSubmit: FormEventHandler = (e: FormEvent) => {
+  const handleSubmit: FormEventHandler = async (e: FormEvent) => {
     e.preventDefault();
-    setComments([...comments, comment]);
+    await apiService.createComment(comment, postId)
+    setPost(await apiService.getPost(postId));
     setComment(initState);
   };
 
@@ -78,8 +80,8 @@ const postPage = () => {
         <input className={postStyles.formButton} type="submit" value="post" />
       </form>
       <h1 className={postStyles.commentsTitle}>Comments</h1>
-      {comments.length > 0 &&
-        comments.map((c, index) => (
+      {(post && post.comments.length > 0) &&
+        post.comments.map((c, index) => (
           <div className={postStyles.container} key={index}>
             <p className={postStyles.creator}>
               {c.owner.firstName} {c.owner.lastName} commented on{' '}
@@ -88,7 +90,7 @@ const postPage = () => {
             <p className={postStyles.content}>{c.content}</p>
           </div>
         ))}
-      {comments.length === 0 && (
+      {(post && post.comments.length === 0) && (
         <h1 className={postStyles.noComments}>No comments yet</h1>
       )}
     </div>

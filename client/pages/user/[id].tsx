@@ -46,7 +46,7 @@ const userPage = () => {
   }
 
   const getUser = async () => {
-    const foundUser = await apiService.getUserInfo(id);
+    const foundUser = await apiService.getUserInfo(Number(id));
     if (foundUser) setUserInfo(foundUser);
   };
 

@@ -1,3 +1,5 @@
+import Comment from './Comment'
+
 export default interface Post {
   id: number;
   owner: {
@@ -6,5 +8,6 @@ export default interface Post {
     lastName: string;
   };
   content: string;
+  comments: Comment[];
   createdAt: Date;
 }

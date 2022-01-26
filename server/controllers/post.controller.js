@@ -55,8 +55,23 @@ exports.getPost = async (req, res) => {
           model: db.User,
           as: 'owner',
           attributes: ['id', 'firstName', 'lastName']
-        }
-      ]
+        },
+        {
+          model: db.Comment,
+          where: {
+            postId: id
+          },
+          required: false,
+          include: [
+            {
+              model: db.User,
+              as: 'owner',
+              attributes: ['id', 'firstName', 'lastName'],
+            }
+          ],
+          as: 'comments',
+        },
+      ],
     });
     res.status(200).send(post);
   } catch (e) {
@@ -108,3 +123,29 @@ exports.getFollowingsPosts = async (req, res) => {
     res.status(500).send({ error: '500', message: 'Error retrieving followings posts' });
   }
 };
+
+exports.createComment = async (req, res) => {
+  try {
+    const comment = await db.Comment.create({
+      content: req.body.content,
+      authorId: req.userId,
+      postId: req.params.id
+    })
+    // const newComment = await db.Comment.findOne({
+    //   where: {
+    //     id: comment.id,
+    //   },
+    //   include: [
+    //     {
+    //       model: db.User,
+    //       where: { id: comment.authorId },
+    //       attributes: ['id', 'firstName', 'lastName'],
+    //     }
+    //   ],
+    // })
+    res.status(200).send('created');
+  } catch(error) {
+    console.error(error)
+    res.status(500).send(error)
+  }
+}
