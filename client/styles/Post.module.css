@@ -8,13 +8,24 @@
   justify-content: space-evenly;
   margin: 20px 0;
   min-height: 150px;
-  width: 100%;
+  width: 95%;
   padding: 10px;
-
+  border: 1.8px solid rgb(138, 159, 250);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 20px 0;
+  min-height: 120px;
+  width: 80%;
+  padding: 10px;
   border: 1px solid rgb(138, 159, 250);
   border-radius: 10px;
-
   transition: all 0.3s ease;
+
 }
 
 .creator {
@@ -44,6 +55,14 @@
   flex-direction: column;
   height: 200px;
   width: 100%;
+  margin-bottom: 25px;
+}
+
+.commentFormContainer {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  width: 90%;
   margin-bottom: 25px;
 }
 

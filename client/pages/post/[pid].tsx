@@ -66,7 +66,7 @@ const postPage = () => {
           <p className={postStyles.content}>{post.content}</p>
         </div>
       )}
-      <form onSubmit={handleSubmit} className={postStyles.formContainer}>
+      <form onSubmit={handleSubmit} className={postStyles.commentFormContainer}>
         <input
           onChange={handleChange}
           className={postStyles.formInput}
@@ -82,7 +82,7 @@ const postPage = () => {
       <h1 className={postStyles.commentsTitle}>Comments</h1>
       {(post && post.comments.length > 0) &&
         post.comments.map((c, index) => (
-          <div className={postStyles.container} key={index}>
+          <div className={postStyles.commentContainer} key={index}>
             <p className={postStyles.creator}>
               {c.owner.firstName} {c.owner.lastName} commented on{' '}
               {moment(c.createdAt).format('MMMM Do, YYYY')}

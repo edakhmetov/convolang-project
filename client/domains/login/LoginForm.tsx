@@ -75,7 +75,7 @@ const LoginForm = () => {
         value={formData.password}
         onChange={handleChange}
       />
-      <input className={styles.button} type="submit" />
+      <input className={styles.button} type="submit" name="submitBtn"/>
     </form>
   );
 };
