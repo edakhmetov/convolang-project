@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Comment.associate = db => {
-    db.Comment.belongsTo(db.User, {sourceKey: 'id', foreignKey: 'authorId'});
+    db.Comment.belongsTo(db.User, {sourceKey: 'id', foreignKey: 'authorId', as: 'owner'});
     db.Comment.belongsTo(db.Post, {sourceKey: 'id', foreignKey: 'postId'});
   };
 

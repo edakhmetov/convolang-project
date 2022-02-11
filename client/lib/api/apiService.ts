@@ -1,7 +1,28 @@
 const BASE_URL = 'http://localhost:3001';
-const apiService = {};
 
-apiService.register = async (formData) => {
+type registerForm = {
+  username: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+  learningLanguages: string,
+  nativeLanguages: string,
+};
+
+type loginForm = {
+  username: string,
+  password: string,
+};
+
+type createPostForm = {
+  content: string,
+};
+
+type createCommentForm = {
+  content: string
+}
+
+const register = async (formData: registerForm) => {
   try {
     const res = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
@@ -18,7 +39,7 @@ apiService.register = async (formData) => {
   }
 };
 
-apiService.login = async (formData) => {
+const login = async (formData: loginForm) => {
   try {
     const res = await fetch(`${BASE_URL}/login`, {
       method: 'POST',
@@ -36,7 +57,7 @@ apiService.login = async (formData) => {
   }
 };
 
-apiService.logout = async () => {
+const logout = async () => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch(`${BASE_URL}/logout`, {
@@ -54,29 +75,8 @@ apiService.logout = async () => {
     console.error(e);
   }
 };
-//COMBINED WITH GETUSERINFO()
-// apiService.getLoggedUser = async () => {
-//   try {
-//     const accessToken = localStorage.getItem('accessToken');
-//     if (!accessToken) throw new Error();
-//     const res = await fetch(`${BASE_URL}/profile`, {
-//       method: 'GET',
-//       credentials: 'include',
-//       mode: 'cors',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'authorization': `Bearer ${accessToken}`,
-//       },
-//     });
-//     const user = await res.json();
-//     return user;
-//   } catch (e) {
-//     console.error(e);
-//     return null;
-//   }
-// }
 
-apiService.createPost = async (formData) => {
+const createPost = async (formData: createPostForm) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch(`${BASE_URL}/posts`, {
@@ -97,8 +97,7 @@ apiService.createPost = async (formData) => {
   }
 };
 
-//hookified
-apiService.getUserPosts = async () => {
+const getUserPosts = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
     const url = `${BASE_URL}/posts`;
@@ -118,8 +117,8 @@ apiService.getUserPosts = async () => {
     return [];
   }
 };
-//hookified
-apiService.getNativeSpeakers = async () => {
+
+const getNativeSpeakers = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
     const url = `${BASE_URL}/nativeSpeakers`;
@@ -139,8 +138,8 @@ apiService.getNativeSpeakers = async () => {
     return [];
   }
 };
-//hookified
-apiService.getLearningSpeakers = async () => {
+
+const getLearningSpeakers = async () => {
   const accessToken = localStorage.getItem('accessToken');
   try {
     const url = `${BASE_URL}/learningSpeakers`;
@@ -161,7 +160,7 @@ apiService.getLearningSpeakers = async () => {
   }
 };
 
-apiService.followUser = async (id) => {
+const followUser = async (id: number) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch(`${BASE_URL}/follow/${id}`, {
@@ -181,7 +180,7 @@ apiService.followUser = async (id) => {
   }
 };
 
-apiService.unfollowUser = async (id) => {
+const unfollowUser = async (id: number) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const res = await fetch(`${BASE_URL}/unfollow/${id}`, {
@@ -201,29 +200,7 @@ apiService.unfollowUser = async (id) => {
   }
 };
 
-//NOT BEING USED 1/20/22
-// apiService.getMyPosts = async () => {
-//   try {
-//     const url = `${BASE_URL}/myPosts`;
-//     const accessToken = localStorage.getItem('accessToken');
-//     const res = await fetch(url, {
-//       method: 'GET',
-//       credentials: 'include',
-//       mode: 'cors',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'authorization': `Bearer ${accessToken}`,
-//       },
-//     });
-//     const posts = await res.json();
-//     return posts;
-//   } catch (e) {
-//     console.error(e);
-//     return []
-//   }
-// };
-//hookfieid, minus id param
-apiService.getUserInfo = async (id) => {
+const getUserInfo = async (id?: number ) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) throw new Error('no access token');
@@ -246,7 +223,8 @@ apiService.getUserInfo = async (id) => {
   }
 };
 
-apiService.getPost = async (id) => {
+
+const getPost = async (id: number) => {
   try {
     const url = `${BASE_URL}/posts/${id}`;
     const accessToken = localStorage.getItem('accessToken');
@@ -266,5 +244,42 @@ apiService.getPost = async (id) => {
     return null;
   }
 };
+
+const createComment = async (formData: createCommentForm, id: number)=> {
+  const accessToken = localStorage.getItem('accessToken')
+  try {
+    const url = `${BASE_URL}/comment/${id}`;
+      await fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type' : 'application/json',
+        'authorization' : `Bearer ${accessToken}`
+      },
+      body: JSON.stringify(formData)
+    });
+    } catch(e) {
+    console.error(e)
+  }
+}
+
+
+const apiService = {
+  login,
+  register,
+  logout,
+  followUser,
+  unfollowUser,
+  createPost,
+  getPost,
+  getUserInfo,
+  getUserPosts,
+  getLearningSpeakers,
+  getNativeSpeakers,
+  createComment
+  }
+  
+
 
 export default apiService;

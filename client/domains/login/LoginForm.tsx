@@ -1,4 +1,11 @@
-import { useState, useContext, useEffect } from 'react';
+import {
+  useState,
+  useContext,
+  FormEventHandler,
+  FormEvent,
+  ChangeEvent,
+  ChangeEventHandler,
+} from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../lib/context/AuthContext';
 import apiService from '../../lib/api/apiService';
@@ -9,6 +16,11 @@ const initialState = {
   password: '',
 };
 
+// type inputField = {
+//   name: string;
+//   value: string;
+// };
+
 const LoginForm = () => {
   const { user, setUser } = useContext(AuthContext);
 
@@ -16,12 +28,15 @@ const LoginForm = () => {
 
   const [formData, setFormData] = useState(initialState);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange: ChangeEventHandler = (e: ChangeEvent) => {
+    const { name, value } = e.target as typeof e.target & {
+      name: string;
+      value: string;
+    };
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit: FormEventHandler = async (e: FormEvent) => {
     e.preventDefault();
     const data = await apiService.login(formData);
     setUser(await apiService.getUserInfo());
@@ -60,7 +75,7 @@ const LoginForm = () => {
         value={formData.password}
         onChange={handleChange}
       />
-      <input className={styles.button} type="submit" />
+      <input className={styles.button} type="submit" name="submitBtn"/>
     </form>
   );
 };

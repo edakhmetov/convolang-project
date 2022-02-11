@@ -3,9 +3,16 @@ import SinglePost from './SinglePost';
 import apiService from '../../lib/api/apiService';
 import PostForm from './PostForm';
 import styles from '../../styles/List.module.css';
+import useFetch from '../../lib/hooks/useFetch';
+import User from '../../lib/types/User';
+import Post from '../../lib/types/Post';
 
-const PostList = ({ user, passedPosts }) => {
-  const [posts, setPosts] = useState([]);
+type PostListProps = {
+  passedPosts?: Post[];
+};
+
+const PostList = ({ passedPosts }: PostListProps) => {
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     if (passedPosts) setPosts(passedPosts);
@@ -21,9 +28,7 @@ const PostList = ({ user, passedPosts }) => {
     <div className={styles.container}>
       {!passedPosts && <PostForm getPosts={getPosts} />}
       {posts.length > 0 &&
-        posts.map((post) => (
-          <SinglePost post={post} key={post.id} url={`/post/${post.id}`} />
-        ))}
+        posts.map((post) => <SinglePost post={post} key={post.id} />)}
     </div>
   );
 };

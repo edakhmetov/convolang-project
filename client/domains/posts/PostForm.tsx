@@ -1,26 +1,37 @@
-import { useState, useContext } from 'react';
+import {
+  useState,
+  useContext,
+  FormEvent,
+  FormEventHandler,
+  ChangeEvent,
+  ChangeEventHandler,
+} from 'react';
 import { AuthContext } from '../../lib/context/AuthContext';
 import apiService from '../../lib/api/apiService';
 import styles from '../../styles/Post.module.css';
-
 
 const initialState = {
   content: '',
 };
 
-const PostForm = ({ getPosts }) => {
-  const { user } = useContext(AuthContext);
+type PostFormProps = {
+  getPosts: Function;
+};
 
+const PostForm = ({ getPosts }: PostFormProps) => {
   const [formData, setFormData] = useState(initialState);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange: ChangeEventHandler = (e: ChangeEvent) => {
+    const { name, value } = e.target as typeof e.target & {
+      name: string;
+      value: string;
+    };
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit: FormEventHandler = async (e: FormEvent) => {
     e.preventDefault();
-    const data = await apiService.createPost(formData);
+    await apiService.createPost(formData);
     setFormData(initialState);
     getPosts();
   };

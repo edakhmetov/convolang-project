@@ -5,12 +5,14 @@ import apiService from '../../lib/api/apiService';
 import PostList from '../../domains/posts/PostList';
 import UserInfo from '../../domains/user/UserInfo';
 import styles from '../../styles/UserInfo.module.css';
+import User from '../../lib/types/User';
+import Follower from '../../lib/types/Follower';
 
 const userPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,8 @@ const userPage = () => {
     if (userInfo) {
       console.log(userInfo);
       const isFollowed = () => {
-        userInfo.followers.filter((u) => u.userId === user.id).length > 0
+        userInfo.followers.filter((u: Follower) => u.userId === user.id)
+          .length > 0
           ? setIsFollowing(true)
           : setIsFollowing(false);
       };
@@ -43,17 +46,17 @@ const userPage = () => {
   }
 
   const getUser = async () => {
-    const foundUser = await apiService.getUserInfo(id);
+    const foundUser = await apiService.getUserInfo(Number(id));
     if (foundUser) setUserInfo(foundUser);
   };
 
-  const follow = async (id) => {
+  const follow = async (id: number) => {
     const data = await apiService.followUser(id);
     setIsFollowing(true);
     await getUser();
   };
 
-  const unfollow = async (id) => {
+  const unfollow = async (id: number) => {
     const data = await apiService.unfollowUser(id);
     setIsFollowing(false);
     await getUser();
@@ -66,23 +69,23 @@ const userPage = () => {
           <UserInfo user={userInfo} />
           {isFollowing ? (
             <div className={styles.buttonWrapper}>
-              <button
-                className={styles.followButton}
-                onClick={() => unfollow(userInfo.id)}
+              <button 
+              className={styles.followButton} 
+              onClick={() => unfollow(userInfo.id)}
               >
                 Unfollow
-              </button>
-            </div>
-          ) : (
+                </button>
+                </div>
+            ) : ( 
             <div className={styles.buttonWrapper}>
               <button
-                className={styles.followButton}
-                onClick={() => follow(userInfo.id)}
-              >
-                Follow
-              </button>
-            </div>
-          )}
+               className={styles.followButton} 
+               onClick={() => follow(userInfo.id)}
+               >
+                 Follow
+               </button>
+               </div>
+            )}
           <PostList passedPosts={userInfo.posts} />
         </div>
       )}

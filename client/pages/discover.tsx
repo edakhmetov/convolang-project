@@ -20,8 +20,6 @@ const discover = () => {
     })();
   }, []);
 
-
-
   return (
     <div className={styles.listContainer}>
       {user && (
@@ -30,12 +28,6 @@ const discover = () => {
         </h1>
       )}
       <DiscoverList users={nativeSpeakers} />
-      {/* {user && <h1>People that know {user.nativeLanguages}</h1>}
-      {user && learningSpeakers.map(u => (
-        <div key={u.id}>
-          <h1>{u.firstName} {u.lastName}</h1>
-        </div>
-      ))} */}
     </div>
   );
 };
