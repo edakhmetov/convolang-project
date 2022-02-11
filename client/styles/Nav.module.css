@@ -1,7 +1,8 @@
 .nav {
   display: flex;
   justify-content: space-between;
-  margin: 0 40px;
+  margin: 0 25px;
+  border-bottom: 1px solid rgb(243, 243, 243);
 }
 
 .links {
@@ -13,16 +14,28 @@
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .links ul li {
   font-size: 16px;
 }
 
+.links li:hover {
+  font-size: 17px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  color: rgb(138, 159, 250);
+}
+
 .logoutBtn {
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   background: none;
   cursor: pointer;
+}
+
+.logoutBtn:hover {
+  color: rgb(138, 159, 250);
+  transition: all 0.3s ease;
 }
