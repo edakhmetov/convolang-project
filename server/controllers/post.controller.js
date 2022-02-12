@@ -130,19 +130,7 @@ exports.createComment = async (req, res) => {
       content: req.body.content,
       authorId: req.userId,
       postId: req.params.id
-    })
-    // const newComment = await db.Comment.findOne({
-    //   where: {
-    //     id: comment.id,
-    //   },
-    //   include: [
-    //     {
-    //       model: db.User,
-    //       where: { id: comment.authorId },
-    //       attributes: ['id', 'firstName', 'lastName'],
-    //     }
-    //   ],
-    // })
+    });
     res.status(200).send('created');
   } catch(error) {
     console.error(error)
