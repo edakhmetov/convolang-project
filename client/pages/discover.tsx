@@ -8,15 +8,11 @@ import useFetch from '../lib/hooks/useFetch';
 const discover = () => {
   const { user } = useContext(AuthContext);
   const [nativeSpeakers, setNativeSpeakers] = useState([]);
-  // const [learningSpeakers, setLearningSpeakers] = useState([]);
 
   useEffect(() => {
     (async () => {
       const native = await apiService.getNativeSpeakers();
-      // const learning = await apiService.getLearningSpeakers();
-      // console.log(native);
       setNativeSpeakers(native);
-      // setLearningSpeakers(learning);
     })();
   }, []);
 

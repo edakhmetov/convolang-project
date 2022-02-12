@@ -21,12 +21,10 @@ const DiscoverList = ({ users }: DiscoverProps) => {
 
   const follow = async (id: number) => {
     await apiService.followUser(id);
-    // setFollowing(true);
   };
 
   const unfollow = async (id: number) => {
     await apiService.unfollowUser(id);
-    // setFollowing(false);
   };
 
   if (!user) return null;
