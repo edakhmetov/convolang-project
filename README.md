@@ -55,6 +55,6 @@ npm run dev
 
 ## Contributors
 
-* Eduard Akhmetov - [GitHub](https://github.com/edakhmetov) - [LinkedIn](https://www.linkedin.com/in/cherl/)
+* Eduard Akhmetov - [GitHub](https://github.com/edakhmetov) - [LinkedIn](https://www.linkedin.com/in/eduardakhmetov/)
 * Maggie Reda - [GitHub](https://github.com/MagReda16) - [LinkedIn](https://www.linkedin.com/in/maggierosereda/)
 * Ian Tang - [GitHub](https://github.com/ian-tang) - [LinkedIn](https://www.linkedin.com/in/oliniantang/)
